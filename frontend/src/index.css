@@ -1,0 +1,234 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@layer base {
+  :root {
+    --font-display: 'Space Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    --font-mono: 'Space Grotesk', 'JetBrains Mono', 'Courier New', Courier, monospace;
+    --font-sans: 'Space Grotesk', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    
+    /* Light Theme Palette - Modern Editorial High Contrast */
+    --color-bg: #F1F3F6;
+    --color-bg-panel: #FFFFFF;
+    --color-bg-elevated: #E2E8F0;
+    --color-bg-input: #FFFFFF;
+    --color-border: #CBD5E1;
+    --color-border-subtle: #E2E8F0;
+    --color-accent: #059669;
+    --color-accent-hover: #047857;
+    --color-accent-text: #FFFFFF;
+    --color-text-main: #0F172A;
+    --color-text-muted: #334155;
+    --color-text-subtle: #64748B;
+    --grid-line: #E2E8F0;
+  }
+
+  html.dark {
+    /* Dark Theme Palette - Deep Cyber Carbon */
+    --color-bg: #050605;
+    --color-bg-panel: #0B0D0C;
+    --color-bg-elevated: #111412;
+    --color-bg-input: #050605;
+    --color-border: #1A1C1A;
+    --color-border-subtle: #242825;
+    --color-accent: #8DFFB3;
+    --color-accent-hover: #B7FFC9;
+    --color-accent-text: #050605;
+    --color-text-main: #F5F5F0;
+    --color-text-muted: #A9ADA9;
+    --color-text-subtle: #565C57;
+    --grid-line: #0F110F;
+  }
+
+  body {
+    font-family: "Space Grotesk", "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+    background-color: var(--color-bg);
+    color: var(--color-text-main);
+    transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+  }
+
+  h1, h2, h3, h4, h5, h6, .font-display {
+    font-family: var(--font-display);
+    letter-spacing: -0.03em;
+  }
+
+  code, pre, .font-mono, .mono {
+    font-family: 'Space Grotesk', 'JetBrains Mono', 'Courier New', Courier, monospace;
+    letter-spacing: 0.08em;
+  }
+}
+
+/* Theme-adaptive Utility Classes */
+.bg-app-base {
+  background-color: var(--color-bg);
+}
+
+.bg-app-panel {
+  background-color: var(--color-bg-panel);
+}
+
+.bg-app-elevated {
+  background-color: var(--color-bg-elevated);
+}
+
+.border-app {
+  border-color: var(--color-border);
+}
+
+.text-app-main {
+  color: var(--color-text-main);
+}
+
+.text-app-muted {
+  color: var(--color-text-muted);
+}
+
+.text-app-subtle {
+  color: var(--color-text-subtle);
+}
+
+.bg-accent {
+  background-color: var(--color-accent);
+}
+
+.text-accent {
+  color: var(--color-accent);
+}
+
+.border-accent {
+  border-color: var(--color-accent);
+}
+
+.event-panel {
+  background: var(--color-bg-panel);
+}
+
+/* Custom subtle noise and technical grid */
+.tech-grid {
+  background-size: 40px 40px;
+  background-image: 
+    linear-gradient(to right, var(--grid-line) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--grid-line) 1px, transparent 1px);
+}
+
+.tech-grid-fine {
+  background-size: 20px 20px;
+  background-image: 
+    linear-gradient(to right, rgba(5, 150, 105, 0.08) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(5, 150, 105, 0.08) 1px, transparent 1px);
+}
+
+html.dark .tech-grid-fine {
+  background-image: 
+    linear-gradient(to right, rgba(141, 255, 179, 0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(141, 255, 179, 0.05) 1px, transparent 1px);
+}
+
+/* Living background system — all transform/opacity only */
+@keyframes grid-drift {
+  0% { transform: translate3d(0, 0, 0); }
+  50% { transform: translate3d(-22px, -16px, 0); }
+  100% { transform: translate3d(0, 0, 0); }
+}
+
+@keyframes glow-breathe {
+  0%, 100% { opacity: var(--glow-min, 0.5); transform: translate3d(0, 0, 0) scale(1); }
+  50% { opacity: var(--glow-max, 1); transform: translate3d(1.5%, -1.5%, 0) scale(1.05); }
+}
+
+@keyframes scan-sweep {
+  0% { transform: translate3d(0, -20vh, 0); opacity: 0; }
+  6% { opacity: var(--scan-op, 0.5); }
+  94% { opacity: var(--scan-op, 0.5); }
+  100% { transform: translate3d(0, 120vh, 0); opacity: 0; }
+}
+
+@keyframes particle-drift {
+  0% { transform: translate3d(0, 0, 0); opacity: var(--p-o0, 0.2); }
+  25% { opacity: var(--p-o1, 0.45); }
+  75% { opacity: var(--p-o1, 0.45); }
+  100% { transform: translate3d(var(--p-dx, 10px), var(--p-dy, -60px), 0); opacity: var(--p-o0, 0.2); }
+}
+
+@keyframes float-soft {
+  0%, 100% { transform: translate3d(0, 0, 0); opacity: var(--f-min, 0.35); }
+  50% { transform: translate3d(0, -8px, 0); opacity: var(--f-max, 0.7); }
+}
+
+@keyframes soft-blink {
+  0%, 65% { opacity: 1; }
+  66%, 100% { opacity: 0.15; }
+}
+
+.grid-drift {
+  animation: grid-drift 90s ease-in-out infinite;
+  will-change: transform;
+}
+
+.glow-layer {
+  animation: glow-breathe 14s ease-in-out infinite;
+  will-change: transform, opacity;
+}
+
+.scanline {
+  animation: scan-sweep var(--scan-dur, 17s) linear infinite;
+  will-change: transform, opacity;
+}
+
+.particle {
+  position: absolute;
+  border-radius: 9999px;
+  animation-name: particle-drift;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+  will-change: transform, opacity;
+  pointer-events: none;
+}
+
+.float-deco {
+  animation: float-soft 9s ease-in-out infinite;
+}
+
+.blink-dot {
+  animation: soft-blink 2.6s steps(1) infinite;
+}
+
+/* Dim siblings while one card is hovered (team grid) */
+@media (hover: hover) {
+  .sibling-dim > * { transition: opacity 0.35s ease; }
+  .sibling-dim:hover > *:not(:hover) { opacity: 0.55; }
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-bg);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-border);
+  border-radius: 0px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-accent);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .grid-drift,
+  .glow-layer,
+  .scanline,
+  .particle,
+  .float-deco,
+  .blink-dot {
+    animation: none !important;
+  }
+}
+
+
+

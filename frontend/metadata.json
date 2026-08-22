@@ -1,0 +1,6 @@
+{
+  "name": "Kaizen Hacks",
+  "description": "Minimal, premium hackathon platform connecting elite builders, engineering sprints, and next-generation tech events.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
