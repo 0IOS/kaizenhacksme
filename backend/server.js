@@ -82,4 +82,3 @@ app.listen(PORT, () => {
   console.log(`Kaizen Hacks Backend running on port ${PORT}`);
 });
 
-module.exports = app;
