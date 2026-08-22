@@ -2,16 +2,16 @@ import React from 'react';
 
 export const MarqueeTicker: React.FC = () => {
   const items = [
-    'KAIZEN BUILDERS',
-    '48 HOURS',
-    'CODE//FORGE',
-    'CONTINUOUS EVOLUTION',
-    '500+ HACKERS',
+    'GREENTECH IDEATHON',
+    'BUILD FOR THE SDGs',
+    'APPS · WEBSITES · GAMES',
+    'REAL PROBLEMS, REAL SOLUTIONS',
+    '50 BUILDER SEATS',
+    'CM SHRI / DBRA SOSE KALKAJI',
+    'IDEAS TO WORKING BUILDS',
     'ZERO NOISE',
-    'DELHI / BANGALORE / HYDERABAD',
-    '₹1.8CR GRANTS',
-    'AUTONOMOUS AGENTS',
-    'HARDWARE LABS'
+    'CONTINUOUS EVOLUTION',
+    'KAIZEN HACKS'
   ];
 
   return (

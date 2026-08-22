@@ -1,15 +1,15 @@
 import React from 'react';
 import { X, ArrowRight } from 'lucide-react';
 import { EventItem } from '../types';
+import { REGISTRATION_URL } from '../data/mockData';
 import { playTactileClick } from '../utils/audio';
 
 interface EventDetailModalProps {
   event: EventItem | null;
   onClose: () => void;
-  onRegister: () => void;
 }
 
-export const EventDetailModal: React.FC<EventDetailModalProps> = ({ event, onClose, onRegister }) => {
+export const EventDetailModal: React.FC<EventDetailModalProps> = ({ event, onClose }) => {
   if (!event) return null;
 
   return (
@@ -29,6 +29,7 @@ export const EventDetailModal: React.FC<EventDetailModalProps> = ({ event, onClo
               playTactileClick();
               onClose();
             }}
+            aria-label="Close specification"
             className="p-1 text-slate-500 dark:text-[#A9ADA9] hover:text-emerald-700 dark:hover:text-accent transition-colors cursor-pointer"
           >
             <X size={20} />
@@ -67,10 +68,23 @@ export const EventDetailModal: React.FC<EventDetailModalProps> = ({ event, onClo
           </div>
           <div>
             <div className="text-[10px] text-slate-500 dark:text-[#565C57] uppercase font-semibold">LOCATION</div>
-            <div className="text-slate-950 dark:text-[#F5F5F0] font-bold mt-0.5">{event.city}</div>
+            {event.mapsUrl ? (
+              <a
+                href={event.mapsUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={() => playTactileClick()}
+                title="Open in Google Maps"
+                className="text-emerald-700 dark:text-accent font-bold mt-0.5 inline-block hover:underline decoration-dotted underline-offset-2"
+              >
+                {event.city} ↗
+              </a>
+            ) : (
+              <div className="text-slate-950 dark:text-[#F5F5F0] font-bold mt-0.5">{event.city}</div>
+            )}
           </div>
           <div>
-            <div className="text-[10px] text-slate-500 dark:text-[#565C57] uppercase font-semibold">BUILDERS</div>
+            <div className="text-[10px] text-slate-500 dark:text-[#565C57] uppercase font-semibold">CAPACITY</div>
             <div className="text-slate-950 dark:text-[#F5F5F0] font-bold mt-0.5">{event.builderCount}</div>
           </div>
           <div>
@@ -140,25 +154,47 @@ export const EventDetailModal: React.FC<EventDetailModalProps> = ({ event, onClo
         )}
 
         {/* Bottom CTA */}
-        <div className="pt-4 border-t border-slate-200 dark:border-[#1A1C1A] flex items-center justify-between">
-          <div className="text-[10px] mono text-slate-500 dark:text-[#565C57] font-medium">
-            VENUE: {event.venue}
-          </div>
+        <div className="pt-4 border-t border-slate-200 dark:border-[#1A1C1A] flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3">
+          {event.mapsUrl ? (
+            <a
+              href={event.mapsUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={() => playTactileClick()}
+              className="text-[10px] mono text-slate-500 dark:text-[#565C57] hover:text-emerald-700 dark:hover:text-accent transition-colors font-medium underline decoration-dotted underline-offset-2"
+            >
+              VENUE: {event.venue} ↗
+            </a>
+          ) : (
+            <div className="text-[10px] mono text-slate-500 dark:text-[#565C57] font-medium">
+              VENUE: {event.venue}
+            </div>
+          )}
 
-          <button
-            onClick={() => {
-              playTactileClick(1000);
-              onClose();
-              onRegister();
-            }}
-            className="group px-6 py-3 bg-emerald-600 hover:bg-emerald-700 dark:bg-accent text-white dark:text-[#050605] mono font-bold text-xs uppercase tracking-wider flex items-center gap-2 transition-all cursor-pointer rounded-none shadow-sm"
-          >
-            <span>APPLY FOR {event.name}</span>
-            <ArrowRight size={14} className="group-hover:translate-x-0.5 transition-transform" />
-          </button>
+          <div className="flex items-center gap-3">
+            <button
+              onClick={() => {
+                playTactileClick();
+                onClose();
+              }}
+              className="px-5 py-3 bg-transparent hover:bg-slate-100 dark:hover:bg-[#1A1C1A] border border-slate-300 dark:border-[#1A1C1A] text-slate-900 dark:text-[#F5F5F0] mono font-bold text-xs uppercase tracking-wider transition-colors cursor-pointer rounded-none"
+            >
+              CLOSE SPEC
+            </button>
+
+            <a
+              href={REGISTRATION_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={() => playTactileClick(1000)}
+              className="group px-6 py-3 bg-emerald-600 hover:bg-emerald-700 dark:bg-accent text-white dark:text-[#050605] mono font-bold text-xs uppercase tracking-wider flex items-center gap-2 transition-all cursor-pointer rounded-none shadow-sm"
+            >
+              <span>APPLY FOR {event.name}</span>
+              <ArrowRight size={14} className="group-hover:translate-x-0.5 transition-transform" />
+            </a>
+          </div>
         </div>
       </div>
     </div>
   );
 };
-

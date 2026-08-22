@@ -4,12 +4,9 @@ import { ArrowRight } from 'lucide-react';
 import { playTactileClick } from '../utils/audio';
 import { Reveal, EASE_OUT } from '../lib/motion';
 import { useTheme } from '../context/ThemeContext';
+import { REGISTRATION_URL, VENUE_MAPS_URL } from '../data/mockData';
 
-interface RegisterCTAProps {
-  onOpenRegister: () => void;
-}
-
-export const RegisterCTA: React.FC<RegisterCTAProps> = ({ onOpenRegister }) => {
+export const RegisterCTA: React.FC = () => {
   const { theme } = useTheme();
   const isDark = theme === 'dark';
 
@@ -53,7 +50,7 @@ export const RegisterCTA: React.FC<RegisterCTAProps> = ({ onOpenRegister }) => {
         <Reveal direction="down" amount={0.6} className="mb-6">
           <div className="inline-flex items-center gap-2 px-3 py-1 bg-white dark:bg-[#0B0D0C] border border-emerald-300 dark:border-accent/30 text-[11px] mono text-emerald-700 dark:text-accent uppercase tracking-widest font-bold shadow-sm">
             <span className="w-1.5 h-1.5 rounded-full bg-emerald-600 dark:bg-accent animate-pulse" />
-            <span>APPLICATIONS CLOSING SOON // VOL. 05</span>
+            <span>REGISTRATIONS OPEN // VOL. 01</span>
           </div>
         </Reveal>
 
@@ -67,27 +64,33 @@ export const RegisterCTA: React.FC<RegisterCTAProps> = ({ onOpenRegister }) => {
 
         {/* Action Button: NEXT EVENT → */}
         <Reveal direction="up" delay={0.12} className="mt-10 sm:mt-14">
-          <button
-            onClick={() => {
-              playTactileClick(1100, 0.06);
-              onOpenRegister();
-            }}
+          <a
+            href={REGISTRATION_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={() => playTactileClick(1100, 0.06)}
             className="group px-8 sm:px-12 py-5 sm:py-6 bg-emerald-600 hover:bg-emerald-700 dark:bg-accent dark:hover:opacity-90 text-white dark:text-[#050605] mono font-bold text-sm sm:text-base uppercase tracking-widest flex items-center gap-4 transition-all duration-200 cursor-pointer hover:scale-105 rounded-none shadow-md hover:shadow-xl"
           >
-            <span>NEXT EVENT (CODE//FORGE)</span>
+            <span>NEXT EVENT (GREENTECH IDEATHON)</span>
             <ArrowRight size={20} className="group-hover:translate-x-2 transition-transform duration-200" />
-          </button>
+          </a>
         </Reveal>
 
         {/* Tiny metadata subline */}
         <Reveal direction="none" delay={0.25} className="mt-8">
-          <div className="flex items-center gap-3 text-xs mono text-slate-600 dark:text-[#565C57] tracking-wider uppercase font-semibold">
-            <span>48 HOURS</span>
+          <a
+            href={VENUE_MAPS_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={() => playTactileClick()}
+            className="flex items-center justify-center gap-3 text-xs mono text-slate-600 dark:text-[#565C57] hover:text-emerald-700 dark:hover:text-accent tracking-wider uppercase font-semibold transition-colors"
+          >
+            <span>ONE-DAY IDEATHON</span>
             <span className="w-1 h-1 bg-emerald-600/50 dark:bg-accent/40 rounded-full" />
-            <span>NEW DELHI</span>
+            <span>CM SHRI / DBRA SOSE KALKAJI ↗</span>
             <span className="w-1 h-1 bg-emerald-600/50 dark:bg-accent/40 rounded-full" />
-            <span>OCTOBER 24—26, 2026</span>
-          </div>
+            <span>DATE TO BE ANNOUNCED</span>
+          </a>
         </Reveal>
       </div>
     </section>

@@ -3,13 +3,13 @@ import { motion, useScroll, useSpring } from 'motion/react';
 import { Volume2, VolumeX, Menu, X, Sun, Moon } from 'lucide-react';
 import { playTactileClick, toggleSound, isSoundEnabled } from '../utils/audio';
 import { useTheme } from '../context/ThemeContext';
+import { REGISTRATION_URL } from '../data/mockData';
 
 interface NavbarProps {
-  onOpenRegister: () => void;
   onOpenPartners?: () => void;
 }
 
-export const Navbar: React.FC<NavbarProps> = ({ onOpenRegister, onOpenPartners }) => {
+export const Navbar: React.FC<NavbarProps> = ({ onOpenPartners }) => {
   const [soundOn, setSoundOn] = useState(true);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
@@ -132,16 +132,16 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenRegister, onOpenPartners }
           </button>
 
           {/* Primary CTA */}
-          <button
+          <a
             id="nav-register-btn"
-            onClick={() => {
-              playTactileClick(1000, 0.05);
-              onOpenRegister();
-            }}
+            href={REGISTRATION_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={() => playTactileClick(1000, 0.05)}
             className="bg-emerald-600 hover:bg-emerald-700 text-white dark:bg-accent dark:text-[#050605] dark:hover:bg-[#B7FFC9] px-5 py-2 font-bold tracking-normal rounded-none transition-all cursor-pointer text-xs mono shadow-sm"
           >
             REGISTER →
-          </button>
+          </a>
         </div>
 
         {/* Mobile controls */}
@@ -191,7 +191,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenRegister, onOpenPartners }
               onClick={() => scrollToSection('featured-event')}
               className="text-left py-2 hover:text-slate-950 dark:hover:text-[#F5F5F0] border-b border-slate-200 dark:border-[#1A1C1A] uppercase"
             >
-              01 // EVENTS (CODE//FORGE)
+              01 // EVENTS (GREENTECH)
             </button>
             <button
               onClick={() => scrollToSection('partners')}
@@ -212,16 +212,18 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenRegister, onOpenPartners }
               04 // PAST ARCHIVE
             </button>
             
-            <button
+            <a
+              href={REGISTRATION_URL}
+              target="_blank"
+              rel="noopener noreferrer"
               onClick={() => {
                 setMobileMenuOpen(false);
                 playTactileClick(1000);
-                onOpenRegister();
               }}
               className="mt-2 w-full flex items-center justify-center gap-2 py-3 bg-emerald-600 text-white dark:bg-accent dark:text-[#050605] mono text-xs font-bold uppercase tracking-wider rounded-none"
             >
-              <span>REGISTER FOR HACKATHON →</span>
-            </button>
+              <span>REGISTER FOR IDEATHON →</span>
+            </a>
           </nav>
         </div>
       )}

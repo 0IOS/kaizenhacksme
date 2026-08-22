@@ -220,20 +220,9 @@ export const BackgroundCanvas: React.FC = () => {
         }}
       />
 
-      {/* Decorative Coordinates & System State */}
+      {/* Decorative Coordinates */}
       <div className="absolute top-1/2 left-3 mono text-[9px] text-slate-400 dark:text-[#1A1C1A] -rotate-90 origin-left tracking-widest hidden xl:block">
         LAT: 28.6139° N / LONG: 77.2090° E
-      </div>
-      <div className="absolute bottom-6 right-8 mono text-[9px] text-emerald-600 dark:text-accent opacity-40 dark:opacity-30 tracking-wider hidden sm:block">
-        KAIZEN_SYSTEM_ONLINE // B_01
-      </div>
-
-      {/* Subtle Corner HUD Technical Data */}
-      <div className="hidden lg:flex fixed bottom-4 left-6 z-20 items-center gap-3 text-[10px] font-mono tracking-widest text-slate-500 dark:text-[#565C57] uppercase">
-        <span className="inline-block w-1.5 h-1.5 rounded-full bg-emerald-600 dark:bg-accent animate-pulse" />
-        <span>SYS_OK // NODE_DELHI</span>
-        <span>·</span>
-        <span ref={coordsRef}>28.6139° N, 77.2090° E</span>
       </div>
     </div>
   );

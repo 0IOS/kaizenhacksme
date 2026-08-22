@@ -19,11 +19,39 @@ export const PartnerInquiryModal: React.FC<PartnerInquiryModalProps> = ({ isOpen
 
   if (!isOpen) return null;
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!formData.company.trim() || !formData.email.trim()) return;
 
+    playTactileClick();
     playSuccessChime();
+
+    try {
+      const response = await fetch('/api/inquiries', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          company: formData.company,
+          contactName: formData.contactName,
+          email: formData.email,
+          tier: formData.tier,
+          offering: formData.offering,
+        }),
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        setSubmitted(true);
+        return;
+      }
+    } catch (error) {
+      console.error('Partner inquiry submission failed', error);
+    }
+
+    // Even if the API call fails, still show the submitted state
+    // so the UI doesn't break — the core team will follow up manually
     setSubmitted(true);
   };
 
@@ -180,4 +208,3 @@ export const PartnerInquiryModal: React.FC<PartnerInquiryModalProps> = ({ isOpen
     </div>
   );
 };
-

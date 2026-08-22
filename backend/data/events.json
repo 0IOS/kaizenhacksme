@@ -1,0 +1,29 @@
+{
+  "id": "greentech-ideathon-2026",
+  "name": "GREENTECH",
+  "code": "GT_001",
+  "edition": "VOL. 01",
+  "year": "2026",
+  "date": "COMING SOON",
+  "city": "NEW DELHI",
+  "venue": "CM SHRI / DBRA SOSE KALKAJI",
+  "duration": "ONE DAY",
+  "builderCount": "50 SEATS",
+  "teamsCount": "TEAMS OF 2–4",
+  "prizePool": "TO BE REVEALED",
+  "status": "REGISTRATION_OPEN",
+  "mapsUrl": "https://www.google.com/maps/search/?api=1&query=DBRA+SOSE+Kalkaji+New+Delhi",
+  "tags": ["IDEATHON", "SDG", "APPS", "WEBSITES", "GAMES"],
+  "tracks": [
+    "SDG 03 // GOOD HEALTH & WELL-BEING",
+    "SDG 04 // QUALITY EDUCATION",
+    "SDG 07 // AFFORDABLE & CLEAN ENERGY",
+    "SDG 09 // INDUSTRY, INNOVATION & INFRASTRUCTURE",
+    "SDG 11 // SUSTAINABLE CITIES & COMMUNITIES",
+    "SDG 13 // CLIMATE ACTION"
+  ],
+  "schedule": [
+    { "time": "TBA", "title": "TIMELINE COMING SOON", "desc": "The full run-of-show will be announced shortly." }
+  ],
+  "description": "An ideathon where builders think of ideas that advance the UN Sustainable Development Goals — then bring them to life as an app, website, or game that tackles real-life problems."
+}

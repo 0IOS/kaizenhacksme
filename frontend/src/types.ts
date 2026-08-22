@@ -27,6 +27,7 @@ export interface EventItem {
   prizePool: string;
   status: 'UPCOMING' | 'REGISTRATION_OPEN' | 'COMPLETED' | 'ARCHIVED';
   image: string;
+  mapsUrl?: string;
   tags: string[];
   tracks: string[];
   schedule?: EventScheduleItem[];
@@ -55,16 +56,4 @@ export interface Partner {
   logoText: string;
   website: string;
   description: string;
-}
-
-export interface BuilderPass {
-  passId: string;
-  name: string;
-  github: string;
-  role: string;
-  track: string;
-  teamStatus: string;
-  issueDate: string;
-  seatId: string;
-  qrSeed: string;
 }

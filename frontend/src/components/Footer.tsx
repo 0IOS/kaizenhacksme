@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { Github, Twitter, Linkedin, ArrowUp, Mail, Disc as Discord } from 'lucide-react';
 import { playTactileClick } from '../utils/audio';
+import { REGISTRATION_URL } from '../data/mockData';
 
 interface FooterProps {
-  onOpenRegister: () => void;
   onOpenPartnerInquiry: () => void;
 }
 
-export const Footer: React.FC<FooterProps> = ({ onOpenRegister, onOpenPartnerInquiry }) => {
+export const Footer: React.FC<FooterProps> = ({ onOpenPartnerInquiry }) => {
   const [istTime, setIstTime] = useState('');
   const [utcTime, setUtcTime] = useState('');
 
@@ -47,7 +47,7 @@ export const Footer: React.FC<FooterProps> = ({ onOpenRegister, onOpenPartnerInq
               </span>
             </div>
             <p className="mt-4 text-xs mono text-slate-700 dark:text-[#A9ADA9] max-w-sm leading-relaxed">
-              India's premier high-signal hackathon network. 48-hour sprints where ideas turn into working infrastructure, AI platforms, and continuous ship culture.
+              A high-signal builder collective launching with the GreenTech Ideathon — turning SDG ideas into working apps, websites, and games that tackle real-world problems.
             </p>
           </div>
 
@@ -107,15 +107,15 @@ export const Footer: React.FC<FooterProps> = ({ onOpenRegister, onOpenPartnerInq
             <div className="text-emerald-700 dark:text-accent uppercase tracking-widest mb-3 font-bold">ACTIONS</div>
             <ul className="space-y-2.5 text-slate-700 dark:text-[#A9ADA9]">
               <li>
-                <button
-                  onClick={() => {
-                    playTactileClick(1000);
-                    onOpenRegister();
-                  }}
+                <a
+                  href={REGISTRATION_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={() => playTactileClick(1000)}
                   className="text-emerald-700 hover:text-emerald-800 dark:text-accent dark:hover:text-accent transition-colors cursor-pointer uppercase font-bold"
                 >
                   REGISTER →
-                </button>
+                </a>
               </li>
               <li>
                 <button
@@ -211,7 +211,7 @@ export const Footer: React.FC<FooterProps> = ({ onOpenRegister, onOpenPartnerInq
       {/* Subtle Bottom Coordinates & Node Status */}
       <div className="pt-6 mt-6 border-t border-slate-200 dark:border-[#1A1C1A]/60 flex flex-col sm:flex-row items-center justify-between text-[9px] mono text-slate-500 dark:text-[#565C57]">
         <div>KAIZEN_SYSTEM_ONLINE // B_01 // 28.6139° N, 77.2090° E</div>
-        <div className="mt-1 sm:mt-0">NEW DELHI · BENGALURU · HYDERABAD · GLOBAL</div>
+        <div className="mt-1 sm:mt-0">NEW DELHI // KALKAJI</div>
       </div>
     </footer>
   );

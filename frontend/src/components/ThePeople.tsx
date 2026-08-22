@@ -26,7 +26,7 @@ export const ThePeople: React.FC = () => {
       </Reveal>
 
       {/* Editorial Portraits Grid */}
-      <StaggerGroup className="sibling-dim grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+      <StaggerGroup className="sibling-dim grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {ORGANIZERS.map((person) => (
           <StaggerItem key={person.id} className="h-full">
             <div

@@ -1,18 +1,16 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useRef } from 'react';
 import { motion, useScroll, useTransform } from 'motion/react';
-import { ArrowRight, Clock, MapPin, Calendar, CheckCircle2 } from 'lucide-react';
-import { FEATURED_EVENT } from '../data/mockData';
+import { ArrowRight, MapPin, Calendar, CheckCircle2 } from 'lucide-react';
+import { FEATURED_EVENT, REGISTRATION_URL } from '../data/mockData';
 import { playTactileClick } from '../utils/audio';
 import { Reveal, CornerBrackets } from '../lib/motion';
 
 interface FeaturedEventProps {
-  onOpenRegister: () => void;
   onSelectEventDetail: () => void;
 }
 
-export const FeaturedEvent: React.FC<FeaturedEventProps> = ({ onOpenRegister, onSelectEventDetail }) => {
+export const FeaturedEvent: React.FC<FeaturedEventProps> = ({ onSelectEventDetail }) => {
   const [activeTab, setActiveTab] = useState<'OVERVIEW' | 'TRACKS' | 'TIMELINE'>('OVERVIEW');
-  const [timeLeft, setTimeLeft] = useState({ days: 63, hours: 14, minutes: 28, seconds: 45 });
   const containerRef = useRef<HTMLDivElement>(null);
 
   const { scrollYProgress } = useScroll({
@@ -21,25 +19,6 @@ export const FeaturedEvent: React.FC<FeaturedEventProps> = ({ onOpenRegister, on
   });
 
   const imgParallaxY = useTransform(scrollYProgress, [0, 1], ['-8%', '8%']);
-
-  // Countdown timer simulation
-  useEffect(() => {
-    const targetDate = new Date('2026-10-24T18:00:00Z').getTime();
-    const interval = setInterval(() => {
-      const now = new Date().getTime();
-      const difference = targetDate - now;
-
-      if (difference > 0) {
-        const days = Math.floor(difference / (1000 * 60 * 60 * 24));
-        const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-        const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
-        const seconds = Math.floor((difference % (1000 * 60)) / 1000);
-        setTimeLeft({ days, hours, minutes, seconds });
-      }
-    }, 1000);
-
-    return () => clearInterval(interval);
-  }, []);
 
   return (
     <section
@@ -62,7 +41,7 @@ export const FeaturedEvent: React.FC<FeaturedEventProps> = ({ onOpenRegister, on
         {/* Status Pill */}
         <div className="flex items-center gap-2 px-3 py-1.5 bg-emerald-50 dark:bg-accent/10 border border-emerald-300 dark:border-accent/30 text-xs mono text-emerald-700 dark:text-accent uppercase tracking-wider font-bold">
           <span className="inline-block w-1.5 h-1.5 bg-emerald-600 dark:bg-accent" />
-          <span>REGISTRATION OPEN (SLOTS REMAINING: 142)</span>
+          <span>LIMITED SEATS: 50</span>
         </div>
       </Reveal>
 
@@ -72,7 +51,7 @@ export const FeaturedEvent: React.FC<FeaturedEventProps> = ({ onOpenRegister, on
         <CornerBrackets />
         {/* Hover glow halo */}
         <div className="absolute -inset-px pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-500" style={{ boxShadow: 'inset 0 0 60px rgba(141, 255, 179, 0.04)' }} />
-        
+
         {/* Background Visual Layer with Parallax */}
         <div className="absolute inset-0 z-0 overflow-hidden opacity-10 dark:opacity-30 group-hover:opacity-20 dark:group-hover:opacity-40 transition-opacity duration-500">
           <motion.img
@@ -88,8 +67,8 @@ export const FeaturedEvent: React.FC<FeaturedEventProps> = ({ onOpenRegister, on
 
         {/* Content Container */}
         <div className="relative z-10 p-6 sm:p-10 lg:p-14 flex flex-col justify-between min-h-[580px] lg:min-h-[640px]">
-          
-          {/* Top Row: Meta bar & Countdown */}
+
+          {/* Top Row: Meta bar & Date status */}
           <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 border-b border-slate-200 dark:border-[#1A1C1A] pb-6">
             <div className="flex flex-wrap items-center gap-3 sm:gap-6 text-xs mono text-slate-700 dark:text-[#A9ADA9]">
               <span className="px-2.5 py-1 bg-slate-100 dark:bg-[#050605] border border-slate-300 dark:border-[#1A1C1A] text-slate-950 dark:text-[#F5F5F0] uppercase font-bold">
@@ -99,29 +78,27 @@ export const FeaturedEvent: React.FC<FeaturedEventProps> = ({ onOpenRegister, on
                 <Calendar size={14} className="text-emerald-600 dark:text-accent" />
                 {FEATURED_EVENT.date}
               </span>
-              <span className="flex items-center gap-1.5">
+              <a
+                href={FEATURED_EVENT.mapsUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={() => playTactileClick()}
+                title="Open in Google Maps"
+                className="flex items-center gap-1.5 hover:text-emerald-700 dark:hover:text-accent transition-colors"
+              >
                 <MapPin size={14} className="text-emerald-600 dark:text-accent" />
-                {FEATURED_EVENT.city}
-              </span>
+                {FEATURED_EVENT.city} ↗
+              </a>
               <span className="flex items-center gap-1.5">
-                <Clock size={14} className="text-emerald-600 dark:text-accent" />
-                {FEATURED_EVENT.duration}
+                {FEATURED_EVENT.duration} IDEATHON
               </span>
             </div>
 
-            {/* Countdown HUD */}
+            {/* Status HUD */}
             <div className="flex items-center gap-3 bg-slate-100 dark:bg-[#050605] border border-slate-300 dark:border-[#1A1C1A] px-4 py-2 self-start lg:self-auto">
-              <div className="text-[10px] mono text-slate-600 dark:text-[#A9ADA9] uppercase tracking-wider mr-1 font-semibold">
-                T-MINUS:
-              </div>
-              <div className="flex items-baseline gap-2 mono text-sm sm:text-base font-bold text-emerald-700 dark:text-accent">
-                <span>{String(timeLeft.days).padStart(2, '0')}d</span>
-                <span className="text-slate-400 dark:text-[#565C57]">:</span>
-                <span>{String(timeLeft.hours).padStart(2, '0')}h</span>
-                <span className="text-slate-400 dark:text-[#565C57]">:</span>
-                <span>{String(timeLeft.minutes).padStart(2, '0')}m</span>
-                <span className="text-slate-400 dark:text-[#565C57]">:</span>
-                <span>{String(timeLeft.seconds).padStart(2, '0')}s</span>
+              <span className="inline-block w-1.5 h-1.5 rounded-full bg-emerald-600 dark:bg-accent animate-pulse" />
+              <div className="mono text-xs sm:text-sm font-bold text-emerald-700 dark:text-accent tracking-wider uppercase">
+                Registrations Open
               </div>
             </div>
           </div>
@@ -129,9 +106,9 @@ export const FeaturedEvent: React.FC<FeaturedEventProps> = ({ onOpenRegister, on
           {/* Center Visual Core */}
           <div className="my-8 lg:my-10">
             <div className="inline-block text-xs mono tracking-widest text-emerald-700 dark:text-accent uppercase mb-2 font-bold">
-              SPRINT CODEX // INDIA'S PREMIER BUILDER ARENA
+              IDEATHON CODEX // BUILD FOR THE GOALS
             </div>
-            
+
             <h1 className="font-display font-bold text-5xl sm:text-7xl md:text-8xl lg:text-9xl text-slate-950 dark:text-[#F5F5F0] tracking-tighter uppercase leading-none">
               {FEATURED_EVENT.name}
             </h1>
@@ -140,23 +117,32 @@ export const FeaturedEvent: React.FC<FeaturedEventProps> = ({ onOpenRegister, on
             <div className="mt-8 grid grid-cols-2 sm:grid-cols-4 gap-4 sm:gap-6 border-y border-slate-200 dark:border-[#1A1C1A] py-6 max-w-4xl">
               <div>
                 <div className="text-[10px] mono text-slate-600 dark:text-[#A9ADA9] tracking-widest uppercase font-semibold">CAPACITY</div>
-                <div className="font-display text-2xl sm:text-3xl font-bold text-slate-950 dark:text-[#F5F5F0] mt-1">500+</div>
-                <div className="text-[11px] mono text-slate-500 dark:text-[#565C57]">Accepted Builders</div>
+                <div className="font-display text-2xl sm:text-3xl font-bold text-slate-950 dark:text-[#F5F5F0] mt-1">50</div>
+                <div className="text-[11px] mono text-slate-500 dark:text-[#565C57]">Builder Seats</div>
               </div>
               <div>
                 <div className="text-[10px] mono text-slate-600 dark:text-[#A9ADA9] tracking-widest uppercase font-semibold">PRIZE POOL</div>
-                <div className="font-display text-2xl sm:text-3xl font-bold text-emerald-600 dark:text-accent mt-1">₹500K+</div>
-                <div className="text-[11px] mono text-slate-500 dark:text-[#565C57]">Cash & Grants</div>
+                <div className="font-display text-xl sm:text-2xl lg:text-3xl font-bold text-emerald-600 dark:text-accent mt-1">TBA</div>
+                <div className="text-[11px] mono text-slate-500 dark:text-[#565C57]">To Be Revealed</div>
               </div>
               <div>
                 <div className="text-[10px] mono text-slate-600 dark:text-[#A9ADA9] tracking-widest uppercase font-semibold">DURATION</div>
-                <div className="font-display text-2xl sm:text-3xl font-bold text-slate-950 dark:text-[#F5F5F0] mt-1">48H</div>
-                <div className="text-[11px] mono text-slate-500 dark:text-[#565C57]">Continuous Hack</div>
+                <div className="font-display text-2xl sm:text-3xl font-bold text-slate-950 dark:text-[#F5F5F0] mt-1">1 DAY</div>
+                <div className="text-[11px] mono text-slate-500 dark:text-[#565C57]">Ideathon Sprint</div>
               </div>
               <div>
                 <div className="text-[10px] mono text-slate-600 dark:text-[#A9ADA9] tracking-widest uppercase font-semibold">VENUE</div>
-                <div className="font-display text-2xl sm:text-3xl font-bold text-slate-950 dark:text-[#F5F5F0] mt-1">DELHI NCR</div>
-                <div className="text-[11px] mono text-slate-500 dark:text-[#565C57]">Innovation Complex</div>
+                <a
+                  href={FEATURED_EVENT.mapsUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={() => playTactileClick()}
+                  title="Open in Google Maps"
+                  className="font-display text-lg sm:text-xl lg:text-2xl font-bold text-slate-950 dark:text-[#F5F5F0] mt-1 hover:text-emerald-700 dark:hover:text-accent transition-colors underline decoration-dotted underline-offset-4"
+                >
+                  KALKAJI ↗
+                </a>
+                <div className="text-[11px] mono text-slate-500 dark:text-[#565C57]">CM Shri / DBRA SOSE</div>
               </div>
             </div>
 
@@ -185,7 +171,7 @@ export const FeaturedEvent: React.FC<FeaturedEventProps> = ({ onOpenRegister, on
               {activeTab === 'OVERVIEW' && (
                 <div className="max-w-2xl text-xs sm:text-sm mono text-slate-700 dark:text-[#A9ADA9] leading-relaxed">
                   <p>
-                    Full hardware and cloud GPU access. On-site mentors from frontier research labs, top angels, and infrastructure leads. High caffeine, zero fluff.
+                    Pick an idea that advances an SDG, then bring it to life as an app, website, or game that tackles real-life problems. Mentor support throughout — no idea is too early.
                   </p>
                 </div>
               )}
@@ -219,7 +205,7 @@ export const FeaturedEvent: React.FC<FeaturedEventProps> = ({ onOpenRegister, on
           <div className="pt-6 border-t border-slate-200 dark:border-[#1A1C1A] flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4">
             <div className="flex items-center gap-2 text-xs mono text-slate-600 dark:text-[#A9ADA9]">
               <CheckCircle2 size={15} className="text-emerald-600 dark:text-accent" />
-              <span>APPLICATIONS REVIEWED ON ROLLING BASIS</span>
+              <span>CONFIRMATIONS SENT ON ROLLING BASIS</span>
             </div>
 
             <div className="flex items-center gap-3">
@@ -233,17 +219,17 @@ export const FeaturedEvent: React.FC<FeaturedEventProps> = ({ onOpenRegister, on
                 VIEW FULL SPEC
               </button>
 
-              <button
+              <a
                 id="featured-event-register"
-                onClick={() => {
-                  playTactileClick(1000, 0.06);
-                  onOpenRegister();
-                }}
+                href={REGISTRATION_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={() => playTactileClick(1000, 0.06)}
                 className="group px-7 py-3.5 bg-emerald-600 hover:bg-emerald-700 dark:bg-accent dark:hover:opacity-90 text-white dark:text-[#050605] mono font-bold text-xs uppercase tracking-widest flex items-center justify-center gap-3 transition-all duration-200 cursor-pointer shadow-sm"
               >
-                <span>REGISTER FOR CODE//FORGE</span>
+                <span>REGISTER NOW</span>
                 <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
-              </button>
+              </a>
             </div>
           </div>
 
@@ -255,4 +241,3 @@ export const FeaturedEvent: React.FC<FeaturedEventProps> = ({ onOpenRegister, on
     </section>
   );
 };
-
