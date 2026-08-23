@@ -2,16 +2,16 @@ import React from 'react';
 import { Github, Twitter, Linkedin } from 'lucide-react';
 import { ORGANIZERS } from '../data/mockData';
 import { playTactileClick } from '../utils/audio';
-import { Reveal, StaggerGroup, StaggerItem, CornerBrackets } from '../lib/motion';
+import { ScrubIn, ScrubCard, CornerBrackets } from '../lib/motion';
 
 export const ThePeople: React.FC = () => {
   return (
     <section
       id="organizers"
-      className="py-16 sm:py-24 px-5 sm:px-8 lg:px-12 w-full select-none"
+      className="py-16 sm:py-24 px-5 sm:px-8 lg:px-12 shell select-none"
     >
       {/* Section Header */}
-      <Reveal direction="up" amount={0.3} className="flex items-baseline justify-between mb-10 sm:mb-12">
+      <ScrubIn from="left" distance={56} rotate={-0.4} className="flex items-baseline justify-between mb-10 sm:mb-12">
         <div>
           <div className="text-xs mono text-emerald-700 dark:text-accent uppercase tracking-widest mb-1 font-bold">
             // CORE OPERATORS
@@ -23,12 +23,12 @@ export const ThePeople: React.FC = () => {
         <div className="hidden sm:block text-xs mono text-slate-600 dark:text-[#565C57] uppercase font-semibold">
           [ENGINEERING & SPRINT DIRECTORS]
         </div>
-      </Reveal>
+      </ScrubIn>
 
       {/* Editorial Portraits Grid */}
-      <StaggerGroup className="sibling-dim grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        {ORGANIZERS.map((person) => (
-          <StaggerItem key={person.id} className="h-full">
+      <div className="sibling-dim grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        {ORGANIZERS.map((person, idx) => (
+          <ScrubCard key={person.id} index={idx} distance={72} className="h-full">
             <div
               className="group relative bg-white dark:bg-[#0B0D0C] border border-slate-300 dark:border-[#1A1C1A] hover:border-emerald-600 dark:hover:border-accent/60 transition-all duration-300 overflow-hidden flex flex-col justify-between h-full shadow-sm hover:shadow-xl hover:-translate-y-1.5 will-change-transform"
             >
@@ -109,9 +109,9 @@ export const ThePeople: React.FC = () => {
               {/* Subtle top indicator */}
               <div className="absolute top-0 left-0 w-full h-[2px] bg-emerald-600 dark:bg-accent/40 opacity-0 group-hover:opacity-100 transition-opacity" />
             </div>
-          </StaggerItem>
+          </ScrubCard>
         ))}
-      </StaggerGroup>
+      </div>
 
     </section>
   );

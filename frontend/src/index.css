@@ -59,6 +59,14 @@
   }
 }
 
+/* Centered page shell — keeps all content focused in the middle of the
+   viewport with a small, consistent gap from the left and right edges. */
+.shell {
+  width: 100%;
+  max-width: 1680px;
+  margin-inline: auto;
+}
+
 /* Theme-adaptive Utility Classes */
 .bg-app-base {
   background-color: var(--color-bg);
@@ -194,10 +202,35 @@ html.dark .tech-grid-fine {
   animation: soft-blink 2.6s steps(1) infinite;
 }
 
-/* Dim siblings while one card is hovered (team grid) */
+/* Dim siblings while one card is hovered (team grid).
+   Targets the card inside each scroll-animated wrapper so the dimming
+   opacity never fights inline motion values on the wrapper itself. */
 @media (hover: hover) {
-  .sibling-dim > * { transition: opacity 0.35s ease; }
-  .sibling-dim:hover > *:not(:hover) { opacity: 0.55; }
+  .sibling-dim > * > * { transition: opacity 0.35s ease; }
+  .sibling-dim:hover > *:not(:hover) > * { opacity: 0.55; }
+}
+
+/* Nav link underline sweep */
+.nav-link {
+  position: relative;
+}
+
+.nav-link::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -3px;
+  height: 1px;
+  width: 100%;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.nav-link:hover::after {
+  transform: scaleX(1);
+  transform-origin: left;
 }
 
 /* Custom scrollbar */
@@ -227,6 +260,10 @@ html.dark .tech-grid-fine {
   .float-deco,
   .blink-dot {
     animation: none !important;
+  }
+
+  .nav-link::after {
+    transition: none;
   }
 }
 

@@ -56,7 +56,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenPartners }) => {
           : 'bg-white/60 dark:bg-[#050605]/40 backdrop-blur-xs py-5 border-b border-transparent'
       }`}
     >
-      <div className="w-full px-5 sm:px-8 lg:px-12 flex items-center justify-between">
+      <div className="shell px-5 sm:px-8 lg:px-12 flex items-center justify-between">
         {/* Brand Left */}
         <a
           href="#"
@@ -81,7 +81,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenPartners }) => {
           <nav className="flex items-center gap-6 lg:gap-8 text-xs sm:text-sm uppercase tracking-wider text-slate-700 dark:text-[#A9ADA9] font-medium mono">
             <button
               onClick={() => scrollToSection('featured-event')}
-              className="hover:text-slate-950 dark:hover:text-[#F5F5F0] transition-colors uppercase cursor-pointer"
+              className="nav-link hover:text-slate-950 dark:hover:text-[#F5F5F0] transition-colors uppercase cursor-pointer"
             >
               Events
             </button>
@@ -93,19 +93,19 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenPartners }) => {
                   scrollToSection('partners');
                 }
               }}
-              className="hover:text-slate-950 dark:hover:text-[#F5F5F0] transition-colors uppercase cursor-pointer"
+              className="nav-link hover:text-slate-950 dark:hover:text-[#F5F5F0] transition-colors uppercase cursor-pointer"
             >
               Partners
             </button>
             <button
               onClick={() => scrollToSection('organizers')}
-              className="hover:text-slate-950 dark:hover:text-[#F5F5F0] transition-colors uppercase cursor-pointer"
+              className="nav-link hover:text-slate-950 dark:hover:text-[#F5F5F0] transition-colors uppercase cursor-pointer"
             >
               Team
             </button>
             <button
               onClick={() => scrollToSection('event-archive')}
-              className="hover:text-slate-950 dark:hover:text-[#F5F5F0] transition-colors uppercase cursor-pointer"
+              className="nav-link hover:text-slate-950 dark:hover:text-[#F5F5F0] transition-colors uppercase cursor-pointer"
             >
               Archive
             </button>
