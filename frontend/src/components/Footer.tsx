@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Github, Twitter, Linkedin, ArrowUp, Mail, Disc as Discord } from 'lucide-react';
 import { playTactileClick } from '../utils/audio';
-import { REGISTRATION_URL } from '../data/mockData';
+import { REGISTRATION_URL, PARTNERS } from '../data/mockData';
+import logoUrl from '../../assets/image.png';
 
 interface FooterProps {
   onOpenPartnerInquiry: () => void;
@@ -34,14 +35,14 @@ export const Footer: React.FC<FooterProps> = ({ onOpenPartnerInquiry }) => {
   };
 
   return (
-    <footer className="bg-slate-50 dark:bg-[#050605] border-t border-slate-300 dark:border-[#1A1C1A] pt-16 sm:pt-20 pb-10 px-5 sm:px-8 lg:px-12 w-full select-none">
+    <footer className="bg-[#F2F7F1] dark:bg-[#050605] border-t border-slate-300 dark:border-[#1A1C1A] pt-16 sm:pt-20 pb-10 px-5 sm:px-8 lg:px-12 w-full select-none">
       {/* Top Navigation & Minimal Columns */}
       <div className="grid grid-cols-1 md:grid-cols-12 gap-10 pb-12 border-b border-slate-200 dark:border-[#1A1C1A]">
         {/* Left Col: Brand & System Status */}
         <div className="md:col-span-5 flex flex-col justify-between">
           <div>
             <div className="flex items-center gap-3">
-              <span className="w-2.5 h-2.5 bg-emerald-600 dark:bg-accent" />
+              <img src={logoUrl} alt="Kaizen Hacks logo" className="h-9 w-9 object-contain" />
               <span className="font-display text-xl font-bold tracking-tight text-slate-950 dark:text-[#F5F5F0]">
                 KAIZEN HACKS
               </span>
@@ -196,12 +197,26 @@ export const Footer: React.FC<FooterProps> = ({ onOpenPartnerInquiry }) => {
 
       {/* FOOTER BAR */}
       <div className="mt-8 flex flex-col md:flex-row justify-between items-start md:items-center gap-4 text-[10px] mono text-slate-600 dark:text-[#A9ADA9]">
-        <div className="flex flex-wrap items-center gap-6 sm:gap-8 font-medium">
+        <div className="flex flex-wrap items-center gap-x-6 sm:gap-x-8 gap-y-1 font-medium">
           <span className="text-emerald-700 dark:text-accent font-bold">SUPPORTED BY</span>
-          <span className="text-slate-800 dark:text-[#F5F5F0] opacity-80 uppercase hover:opacity-100 transition-opacity">Google Cloud</span>
-          <span className="text-slate-800 dark:text-[#F5F5F0] opacity-80 uppercase hover:opacity-100 transition-opacity">Polygon</span>
-          <span className="text-slate-800 dark:text-[#F5F5F0] opacity-80 uppercase hover:opacity-100 transition-opacity">Vercel</span>
-          <span className="text-slate-800 dark:text-[#F5F5F0] opacity-80 uppercase hover:opacity-100 transition-opacity">Devfolio</span>
+          {PARTNERS.slice(0, 4).map((p) => (
+            <a
+              key={p.id}
+              href={p.website}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={() => playTactileClick()}
+              className="text-slate-800 dark:text-[#F5F5F0] opacity-80 uppercase hover:opacity-100 hover:text-emerald-700 dark:hover:text-accent transition-all"
+            >
+              {p.name}
+            </a>
+          ))}
+          <button
+            onClick={onOpenPartnerInquiry}
+            className="text-slate-500 dark:text-[#565C57] uppercase hover:text-emerald-700 dark:hover:text-accent transition-colors cursor-pointer"
+          >
+            + YOUR LOGO
+          </button>
         </div>
         <div className="text-slate-600 dark:text-[#A9ADA9] mt-2 md:mt-0 font-medium">
           © 2026 KAIZEN HACKS / CONTINUOUS BUILDER EVOLUTION.

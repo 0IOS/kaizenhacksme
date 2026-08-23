@@ -26,10 +26,11 @@ export default function App() {
   };
 
   return (
-    <div className="relative min-h-screen bg-[#F1F3F6] dark:bg-[#050605] text-slate-900 dark:text-[#F5F5F0] overflow-x-hidden selection:bg-accent selection:text-[#050605] transition-colors duration-300">
+    <div className="relative min-h-screen bg-[#EDF3EC] dark:bg-[#050605] text-slate-900 dark:text-[#F5F5F0] overflow-x-hidden selection:bg-accent selection:text-[#050605] transition-colors duration-300">
     {/* System Status HUD — always visible, topmost layer */}
-    <div className="fixed top-2 left-1/2 -translate-x-1/2 z-60 pointer-events-none text-[9px] mono uppercase text-emerald-600 dark:text-accent transition-colors">
-      SYS_OK // NODE_DELHI
+    <div className="fixed top-2 left-1/2 -translate-x-1/2 z-[60] pointer-events-none text-[9px] mono uppercase text-emerald-600 dark:text-accent transition-colors flex items-center gap-1.5">
+      <span className="w-1 h-1 bg-emerald-600 dark:bg-accent blink-dot inline-block" aria-hidden="true" />
+      <span>SYS_OK // NODE_DELHI</span>
     </div>
 
       {/* Interactive Background Atmosphere & Canvas */}
