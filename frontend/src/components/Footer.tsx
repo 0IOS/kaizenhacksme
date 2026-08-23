@@ -34,8 +34,7 @@ export const Footer: React.FC<FooterProps> = ({ onOpenPartnerInquiry }) => {
   };
 
   return (
-    <footer className="bg-slate-50 dark:bg-[#050605] border-t border-slate-300 dark:border-[#1A1C1A] w-full select-none">
-      <div className="shell px-5 sm:px-8 lg:px-12 pt-16 sm:pt-20 pb-10">
+    <footer className="bg-slate-50 dark:bg-[#050605] border-t border-slate-300 dark:border-[#1A1C1A] pt-16 sm:pt-20 pb-10 px-5 sm:px-8 lg:px-12 w-full select-none">
       {/* Top Navigation & Minimal Columns */}
       <div className="grid grid-cols-1 md:grid-cols-12 gap-10 pb-12 border-b border-slate-200 dark:border-[#1A1C1A]">
         {/* Left Col: Brand & System Status */}
@@ -213,7 +212,6 @@ export const Footer: React.FC<FooterProps> = ({ onOpenPartnerInquiry }) => {
       <div className="pt-6 mt-6 border-t border-slate-200 dark:border-[#1A1C1A]/60 flex flex-col sm:flex-row items-center justify-between text-[9px] mono text-slate-500 dark:text-[#565C57]">
         <div>KAIZEN_SYSTEM_ONLINE // B_01 // 28.6139° N, 77.2090° E</div>
         <div className="mt-1 sm:mt-0">NEW DELHI // KALKAJI</div>
-      </div>
       </div>
     </footer>
   );

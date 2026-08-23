@@ -2,7 +2,7 @@ import React from 'react';
 import { ArrowUpRight } from 'lucide-react';
 import { PARTNERS } from '../data/mockData';
 import { playTactileClick } from '../utils/audio';
-import { ScrubIn, ScrubCard } from '../lib/motion';
+import { Reveal, StaggerGroup, StaggerItem } from '../lib/motion';
 
 interface PartnersProps {
   onOpenPartnerInquiry: () => void;
@@ -12,10 +12,10 @@ export const Partners: React.FC<PartnersProps> = ({ onOpenPartnerInquiry }) => {
   return (
     <section
       id="partners"
-      className="py-16 sm:py-24 px-5 sm:px-8 lg:px-12 shell select-none"
+      className="py-16 sm:py-24 px-5 sm:px-8 lg:px-12 w-full select-none"
     >
       {/* Section Header */}
-      <ScrubIn from="left" distance={56} rotate={-0.4} className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-4 mb-10 sm:mb-12">
+      <Reveal direction="up" amount={0.3} className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-4 mb-10 sm:mb-12">
         <div>
           <div className="text-xs mono text-emerald-700 dark:text-accent uppercase tracking-widest mb-1 font-bold">
             // ECOSYSTEM & INFRASTRUCTURE
@@ -27,12 +27,12 @@ export const Partners: React.FC<PartnersProps> = ({ onOpenPartnerInquiry }) => {
         <div className="text-xs mono text-slate-600 dark:text-[#565C57] uppercase font-semibold">
           [INFRASTRUCTURE, COMPUTE & VENTURE PARTNERS]
         </div>
-      </ScrubIn>
+      </Reveal>
 
       {/* Monochrome Logos Grid with Clean Border Styling */}
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 sm:gap-6">
-        {PARTNERS.map((partner, idx) => (
-          <ScrubCard key={partner.id} index={idx} distance={56} scaleFrom={0.97} className="h-full">
+      <StaggerGroup className="grid grid-cols-2 sm:grid-cols-4 gap-4 sm:gap-6">
+        {PARTNERS.map((partner) => (
+          <StaggerItem key={partner.id} className="h-full">
             <a
               href={partner.website}
               target="_blank"
@@ -64,12 +64,12 @@ export const Partners: React.FC<PartnersProps> = ({ onOpenPartnerInquiry }) => {
               {/* Hover ambient accent aura */}
               <div className="absolute inset-0 bg-radial from-emerald-500/5 dark:from-accent/5 to-transparent opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity duration-300" />
             </a>
-          </ScrubCard>
+          </StaggerItem>
         ))}
-      </div>
+      </StaggerGroup>
 
       {/* Become a Partner Call to Action at Bottom */}
-      <ScrubIn from="up" distance={40} lag={0.05} className="mt-12 pt-8 border-t border-slate-300 dark:border-[#1A1C1A] flex flex-col sm:flex-row items-center justify-between gap-6">
+      <Reveal direction="up" delay={0.1} className="mt-12 pt-8 border-t border-slate-300 dark:border-[#1A1C1A] flex flex-col sm:flex-row items-center justify-between gap-6">
         <div className="text-xs mono text-slate-700 dark:text-[#A9ADA9] text-center sm:text-left font-medium">
           WANT TO SPONSOR BOUNTIES, PROVIDE GPU RUNTIMES, OR RECRUIT FROM OUR BUILDER ARENA?
         </div>
@@ -84,7 +84,7 @@ export const Partners: React.FC<PartnersProps> = ({ onOpenPartnerInquiry }) => {
           <span>BECOME A PARTNER</span>
           <span className="group-hover:translate-x-1 transition-all">→</span>
         </button>
-      </ScrubIn>
+      </Reveal>
 
     </section>
   );
