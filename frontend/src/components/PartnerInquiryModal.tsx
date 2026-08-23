@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { X, ArrowRight, CheckCircle2 } from 'lucide-react';
 import { playTactileClick, playSuccessChime } from '../utils/audio';
+import { postInquiry } from '../lib/api';
 
 interface PartnerInquiryModalProps {
   isOpen: boolean;
@@ -27,32 +28,19 @@ export const PartnerInquiryModal: React.FC<PartnerInquiryModalProps> = ({ isOpen
     playSuccessChime();
 
     try {
-      const response = await fetch('/api/inquiries', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          company: formData.company,
-          contactName: formData.contactName,
-          email: formData.email,
-          tier: formData.tier,
-          offering: formData.offering,
-        }),
+      const result = await postInquiry({
+        company: formData.company,
+        contactName: formData.contactName,
+        email: formData.email,
+        tier: formData.tier,
+        offering: formData.offering,
       });
-
-      if (response.ok) {
-        const data = await response.json();
-        setSubmitted(true);
-        return;
-      }
+      setSubmitted(true);
     } catch (error) {
       console.error('Partner inquiry submission failed', error);
+      // Even on failure, show submitted state so UI doesn't break
+      setSubmitted(true);
     }
-
-    // Even if the API call fails, still show the submitted state
-    // so the UI doesn't break — the core team will follow up manually
-    setSubmitted(true);
   };
 
   return (
