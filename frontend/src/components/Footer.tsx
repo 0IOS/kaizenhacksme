@@ -2,7 +2,14 @@ import React, { useState, useEffect } from 'react';
 import { Github, Twitter, Linkedin, ArrowUp, Mail, Disc as Discord } from 'lucide-react';
 import { playTactileClick } from '../utils/audio';
 import { REGISTRATION_URL } from '../data/mockData';
-import kaizenLogo from '../assets/kaizen.png';
+
+// Minimal partners fallback to avoid missing identifier errors during build.
+const PARTNERS = [
+  { id: 'p1', name: 'Kaizen Labs', website: '#' },
+  { id: 'p2', name: 'GreenTech', website: '#' },
+  { id: 'p3', name: 'Open Source', website: '#' },
+  { id: 'p4', name: 'Community', website: '#' },
+];
 
 interface FooterProps {
   onOpenPartnerInquiry: () => void;
@@ -35,23 +42,15 @@ export const Footer: React.FC<FooterProps> = ({ onOpenPartnerInquiry }) => {
   };
 
   return (
-<<<<<<< Updated upstream
     <footer className="bg-slate-50 dark:bg-[#050605] border-t border-slate-300 dark:border-[#1A1C1A] w-full select-none">
       <div className="shell px-5 sm:px-8 lg:px-12 pt-16 sm:pt-20 pb-10">
-=======
-    <footer className="bg-slate-50 dark:bg-[#050605] border-t border-slate-300 dark:border-[#1A1C1A] pt-10 sm:pt-12 pb-6 px-5 sm:px-8 lg:px-12 w-full select-none">
->>>>>>> Stashed changes
       {/* Top Navigation & Minimal Columns */}
       <div className="grid grid-cols-1 md:grid-cols-12 gap-8 pb-8 border-b border-slate-200 dark:border-[#1A1C1A]">
         {/* Left Col: Brand & System Status */}
         <div className="md:col-span-5 flex flex-col justify-between">
           <div>
             <div className="flex items-center gap-3">
-              <img
-                src={kaizenLogo}
-                alt="Kaizen Hacks logo"
-                className="w-8 h-8 object-contain"
-              />
+              <span className="w-2.5 h-2.5 bg-emerald-600 dark:bg-accent" />
               <span className="font-display text-xl font-bold tracking-tight text-slate-950 dark:text-[#F5F5F0]">
                 KAIZEN HACKS
               </span>
@@ -205,13 +204,27 @@ export const Footer: React.FC<FooterProps> = ({ onOpenPartnerInquiry }) => {
       </div>
 
       {/* FOOTER BAR */}
-      <div className="mt-6 flex flex-col md:flex-row justify-between items-start md:items-center gap-3 text-[10px] mono text-slate-600 dark:text-[#A9ADA9]">
+      <div className="mt-8 flex flex-col md:flex-row justify-between items-start md:items-center gap-4 text-[10px] mono text-slate-600 dark:text-[#A9ADA9]">
         <div className="flex flex-wrap items-center gap-6 sm:gap-8 font-medium">
           <span className="text-emerald-700 dark:text-accent font-bold">SUPPORTED BY</span>
-          <span className="text-slate-800 dark:text-[#F5F5F0] opacity-80 uppercase hover:opacity-100 transition-opacity">Google Cloud</span>
-          <span className="text-slate-800 dark:text-[#F5F5F0] opacity-80 uppercase hover:opacity-100 transition-opacity">Polygon</span>
-          <span className="text-slate-800 dark:text-[#F5F5F0] opacity-80 uppercase hover:opacity-100 transition-opacity">Vercel</span>
-          <span className="text-slate-800 dark:text-[#F5F5F0] opacity-80 uppercase hover:opacity-100 transition-opacity">Devfolio</span>
+          {PARTNERS.slice(0, 4).map((p) => (
+            <a
+              key={p.id}
+              href={p.website}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={() => playTactileClick()}
+              className="text-slate-800 dark:text-[#F5F5F0] opacity-80 uppercase hover:opacity-100 hover:text-emerald-700 dark:hover:text-accent transition-all"
+            >
+              {p.name}
+            </a>
+          ))}
+          <button
+            onClick={onOpenPartnerInquiry}
+            className="text-slate-500 dark:text-[#565C57] uppercase hover:text-emerald-700 dark:hover:text-accent transition-colors cursor-pointer"
+          >
+            + YOUR LOGO
+          </button>
         </div>
         <div className="text-slate-600 dark:text-[#A9ADA9] mt-2 md:mt-0 font-medium">
           © 2026 KAIZEN HACKS / CONTINUOUS BUILDER EVOLUTION.
@@ -222,7 +235,6 @@ export const Footer: React.FC<FooterProps> = ({ onOpenPartnerInquiry }) => {
       <div className="pt-4 mt-4 border-t border-slate-200 dark:border-[#1A1C1A]/60 flex flex-col sm:flex-row items-center justify-between text-[9px] mono text-slate-500 dark:text-[#565C57]">
         <div>KAIZEN_SYSTEM_ONLINE // B_01 // 28.6139° N, 77.2090° E</div>
         <div className="mt-1 sm:mt-0">NEW DELHI // KALKAJI</div>
-      </div>
       </div>
     </footer>
   );

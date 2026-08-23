@@ -8,20 +8,20 @@
     --font-mono: 'Space Grotesk', 'JetBrains Mono', 'Courier New', Courier, monospace;
     --font-sans: 'Space Grotesk', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
     
-    /* Light Theme Palette - Modern Editorial High Contrast */
-    --color-bg: #F1F3F6;
+    /* Light Theme Palette - Modern Editorial High Contrast (soft green-tinted paper) */
+    --color-bg: #EDF3EC;
     --color-bg-panel: #FFFFFF;
-    --color-bg-elevated: #E2E8F0;
+    --color-bg-elevated: #E1EAE0;
     --color-bg-input: #FFFFFF;
     --color-border: #CBD5E1;
-    --color-border-subtle: #E2E8F0;
+    --color-border-subtle: #DFE9DD;
     --color-accent: #059669;
     --color-accent-hover: #047857;
     --color-accent-text: #FFFFFF;
     --color-text-main: #0F172A;
     --color-text-muted: #334155;
     --color-text-subtle: #64748B;
-    --grid-line: #E2E8F0;
+    --grid-line: #DEE8DB;
   }
 
   html.dark {
@@ -54,17 +54,10 @@
   }
 
   code, pre, .font-mono, .mono {
-    font-family: 'Space Grotesk', 'JetBrains Mono', 'Courier New', Courier, monospace;
-    letter-spacing: 0.08em;
+    font-family: 'JetBrains Mono', 'Space Grotesk', 'Courier New', Courier, monospace;
+    letter-spacing: 0.01em;
+    font-feature-settings: 'zero' on;
   }
-}
-
-/* Centered page shell — keeps all content focused in the middle of the
-   viewport with a small, consistent gap from the left and right edges. */
-.shell {
-  width: 100%;
-  max-width: 1680px;
-  margin-inline: auto;
 }
 
 /* Theme-adaptive Utility Classes */
@@ -202,35 +195,75 @@ html.dark .tech-grid-fine {
   animation: soft-blink 2.6s steps(1) infinite;
 }
 
-/* Dim siblings while one card is hovered (team grid).
-   Targets the card inside each scroll-animated wrapper so the dimming
-   opacity never fights inline motion values on the wrapper itself. */
+/* Dim siblings while one card is hovered (team grid) */
 @media (hover: hover) {
-  .sibling-dim > * > * { transition: opacity 0.35s ease; }
-  .sibling-dim:hover > *:not(:hover) > * { opacity: 0.55; }
+  .sibling-dim > * { transition: opacity 0.35s ease; }
+  .sibling-dim:hover > *:not(:hover) { opacity: 0.55; }
 }
 
-/* Nav link underline sweep */
-.nav-link {
-  position: relative;
+/* ---------- Accessibility ---------- */
+
+:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 3px;
 }
 
-.nav-link::after {
-  content: '';
-  position: absolute;
-  left: 0;
-  bottom: -3px;
-  height: 1px;
-  width: 100%;
-  background: currentColor;
-  transform: scaleX(0);
-  transform-origin: right;
-  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+section[id], footer[id] {
+  scroll-margin-top: 88px;
 }
 
-.nav-link:hover::after {
-  transform: scaleX(1);
-  transform-origin: left;
+/* ---------- Entry animations (replace missing tailwindcss-animate plugin) ---------- */
+
+@keyframes kz-fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes kz-slide-down {
+  from { opacity: 0; transform: translateY(-8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes kz-pop-in {
+  from { opacity: 0; transform: translateY(10px) scale(0.985); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.anim-fade { animation: kz-fade-in 0.2s ease-out both; }
+.anim-drawer { animation: kz-slide-down 0.22s cubic-bezier(0.22, 1, 0.36, 1) both; }
+.anim-modal { animation: kz-pop-in 0.24s cubic-bezier(0.22, 1, 0.36, 1) both; }
+
+/* ---------- Grid intensity system (per-section variation) ---------- */
+
+.grid-hero,
+.grid-event,
+.grid-medium,
+.grid-subtle {
+  background-image:
+    linear-gradient(to right, var(--grid-line) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--grid-line) 1px, transparent 1px);
+}
+
+.grid-hero    { background-size: 44px 44px; }
+.grid-event   { background-size: 36px 36px; }
+.grid-medium  { background-size: 32px 32px; }
+.grid-subtle  { background-size: 48px 48px; }
+
+/* Fades a section grid out toward the bottom so content always wins */
+.grid-fade-y {
+  -webkit-mask-image: linear-gradient(to bottom, black, transparent);
+  mask-image: linear-gradient(to bottom, black, transparent);
+}
+
+/* Oversized ghost numerals — perceived subconsciously (4–7% ink) */
+.ghost-numeral {
+  font-family: var(--font-display);
+  font-weight: 700;
+  line-height: 0.78;
+  letter-spacing: -0.05em;
+  color: var(--color-text-main);
+  user-select: none;
+  pointer-events: none;
 }
 
 /* Custom scrollbar */
@@ -258,12 +291,19 @@ html.dark .tech-grid-fine {
   .scanline,
   .particle,
   .float-deco,
-  .blink-dot {
+  .blink-dot,
+  .anim-fade,
+  .anim-drawer,
+  .anim-modal {
     animation: none !important;
   }
 
-  .nav-link::after {
-    transition: none;
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
   }
 }
 
