@@ -26,7 +26,11 @@ export default function App() {
   };
 
   return (
+<<<<<<< Updated upstream
     <div className="relative min-h-screen bg-[#F1F3F6] dark:bg-[#050605] text-slate-900 dark:text-[#F5F5F0] overflow-x-clip selection:bg-accent selection:text-[#050605] transition-colors duration-300">
+=======
+    <div className="relative min-h-screen flex flex-col bg-[#F1F3F6] dark:bg-[#050605] text-slate-900 dark:text-[#F5F5F0] overflow-x-hidden selection:bg-accent selection:text-[#050605] transition-colors duration-300">
+>>>>>>> Stashed changes
     {/* System Status HUD — always visible, topmost layer */}
     <div className="fixed top-2 left-1/2 -translate-x-1/2 z-60 pointer-events-none text-[9px] mono uppercase text-emerald-600 dark:text-accent transition-colors">
       SYS_OK // NODE_DELHI
@@ -39,7 +43,7 @@ export default function App() {
       <Navbar onOpenPartners={() => setPartnerModalOpen(true)} />
 
       {/* Main Content Sections */}
-      <main className="relative z-10">
+      <main className="relative z-10 flex-1">
         {/* 1. Hero Section */}
         <Hero onScrollToNextEvent={handleScrollToNextEvent} />
 

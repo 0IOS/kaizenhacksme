@@ -28,7 +28,7 @@ export const RegisterCTA: React.FC = () => {
     <section
       ref={sectionRef}
       id="registration-cta"
-      className="relative min-h-[60vh] flex flex-col justify-center items-center py-24 sm:py-28 px-5 sm:px-8 bg-slate-100 dark:bg-[#050605] border-t border-slate-300 dark:border-[#1A1C1A] overflow-hidden text-center select-none"
+      className="relative flex flex-col justify-center items-center pt-20 sm:pt-24 pb-12 sm:pb-14 px-5 sm:px-8 bg-slate-100 dark:bg-[#050605] border-t border-slate-300 dark:border-[#1A1C1A] overflow-hidden text-center select-none"
     >
       {/* Background Grid overlay — slow counter-drift */}
       <motion.div style={{ y: gridY }} className="absolute -inset-y-16 inset-x-0 tech-grid opacity-10 dark:opacity-20 pointer-events-none" />

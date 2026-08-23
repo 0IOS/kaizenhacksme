@@ -1,5 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react';
+<<<<<<< Updated upstream
 import { motion, useScroll, useTransform, type Variants } from 'motion/react';
+=======
+import { AnimatePresence, motion, useScroll, useTransform } from 'motion/react';
+>>>>>>> Stashed changes
 import { playTactileClick } from '../utils/audio';
 import { useCursorParallax, useTilt, useIsDesktop, useReducedMotionSafe, EASE_OUT, CornerBrackets } from '../lib/motion';
 import { FEATURED_EVENT, REGISTRATION_URL, VENUE_MAPS_URL } from '../data/mockData';
@@ -120,7 +124,7 @@ export const Hero: React.FC<HeroProps> = ({ onScrollToNextEvent }) => {
   useEffect(() => {
     const interval = setInterval(() => {
       setHeadlineIndex((prev) => (prev + 1) % headlines.length);
-    }, 6500);
+    }, 2500);
     return () => clearInterval(interval);
   }, [headlines.length]);
 
@@ -231,6 +235,7 @@ export const Hero: React.FC<HeroProps> = ({ onScrollToNextEvent }) => {
             <motion.h1
               className="font-display text-[52px] sm:text-[76px] md:text-[90px] lg:text-[102px] leading-[0.88] font-bold tracking-tight text-slate-950 dark:text-[#F5F5F0] uppercase mb-6 select-none"
             >
+<<<<<<< Updated upstream
               <motion.div style={{ x: pinned ? pLine1X : undefined }}>
                 <motion.div {...introChildProps('left', introDist)}>
                   <motion.div
@@ -273,6 +278,21 @@ export const Hero: React.FC<HeroProps> = ({ onScrollToNextEvent }) => {
                   </motion.div>
                 </motion.div>
               </motion.div>
+=======
+              <AnimatePresence mode="wait" initial={false}>
+                <motion.div
+                  key={headlineIndex}
+                  initial={{ opacity: 0, y: 12 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -12 }}
+                  transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
+                >
+                  <div>{headlines[headlineIndex].line1}</div>
+                  <div className="text-slate-500 dark:text-[#A9ADA9]/60">{headlines[headlineIndex].line2}</div>
+                  <div className="text-emerald-600 dark:text-accent">{headlines[headlineIndex].line3}</div>
+                </motion.div>
+              </AnimatePresence>
+>>>>>>> Stashed changes
             </motion.h1>
 
             <motion.div style={{ y: pinned ? pDescY : undefined }}>

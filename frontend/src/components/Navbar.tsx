@@ -4,6 +4,7 @@ import { Volume2, VolumeX, Menu, X, Sun, Moon } from 'lucide-react';
 import { playTactileClick, toggleSound, isSoundEnabled } from '../utils/audio';
 import { useTheme } from '../context/ThemeContext';
 import { REGISTRATION_URL } from '../data/mockData';
+import kaizenLogo from '../assets/kaizen.png';
 
 interface NavbarProps {
   onOpenPartners?: () => void;
@@ -67,7 +68,11 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenPartners }) => {
           }}
           className="group flex items-center gap-3 select-none"
         >
-          <div className="w-2.5 h-2.5 bg-emerald-600 dark:bg-accent group-hover:scale-110 transition-transform duration-200" />
+          <img
+            src={kaizenLogo}
+            alt="Kaizen Hacks logo"
+            className="w-8 h-8 object-contain group-hover:scale-110 transition-transform duration-200"
+          />
           <span className="font-display font-bold text-xl tracking-tight text-slate-950 dark:text-[#F5F5F0]">
             KAIZEN HACKS
           </span>
