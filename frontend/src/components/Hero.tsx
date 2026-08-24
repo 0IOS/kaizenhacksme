@@ -158,10 +158,10 @@ export const Hero: React.FC<HeroProps> = ({ onScrollToNextEvent }) => {
             </motion.p>
 
             <motion.h1
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
+              initial={{ opacity: 1 }}
+              animate={{ opacity: 1 }}
               transition={{ duration: 0.9, delay: 0.5 }}
-              className="font-display text-[clamp(2.75rem,11vw,3.25rem)] sm:text-[76px] md:text-[90px] lg:text-[102px] leading-[0.88] font-bold tracking-tight text-slate-950 dark:text-[#F5F5F0] uppercase mb-6 select-none"
+              className="font-display text-[clamp(2.75rem,11vw,3.25rem)] sm:text-[68px] md:text-[84px] lg:text-[5.9vw] xl:text-[6.4vw] 2xl:text-[7vw] leading-[0.88] font-bold tracking-tight text-slate-950 dark:text-[#F5F5F0] uppercase mb-6 select-none"
             >
               {reduced ? (
                 <>
@@ -173,14 +173,28 @@ export const Hero: React.FC<HeroProps> = ({ onScrollToNextEvent }) => {
                 <AnimatePresence mode="wait">
                   <motion.div
                     key={headlineIndex}
-                    initial={{ opacity: 0, y: 14 }}
-                    animate={{ opacity: 1, y: 0 }}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
                     exit={{ opacity: 0, y: -10 }}
-                    transition={{ duration: 0.45, ease: EASE_OUT }}
+                    transition={{ duration: 0.4, ease: EASE_OUT }}
                   >
-                    <div>{current.line1}</div>
-                    <div className="text-slate-500 dark:text-[#A9ADA9]/60">{current.line2}</div>
-                    <div className="text-emerald-600 dark:text-accent">{current.line3}</div>
+                    {[current.line1, current.line2, current.line3].map((line, i) => (
+                      <motion.div
+                        key={i}
+                        initial={{ opacity: 0, y: 18 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.45, delay: i * 0.08, ease: EASE_OUT }}
+                        className={
+                          i === 1
+                            ? 'text-slate-500 dark:text-[#A9ADA9]/60'
+                            : i === 2
+                              ? 'text-emerald-600 dark:text-accent'
+                              : undefined
+                        }
+                      >
+                        {line}
+                      </motion.div>
+                    ))}
                   </motion.div>
                 </AnimatePresence>
               )}
@@ -290,7 +304,7 @@ export const Hero: React.FC<HeroProps> = ({ onScrollToNextEvent }) => {
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={() => playTactileClick(1000, 0.05)}
-                className="group/btn relative w-full mt-8 bg-emerald-600 dark:bg-accent text-white dark:text-[#050605] py-4 font-bold text-xs sm:text-sm tracking-widest hover:bg-emerald-700 dark:hover:bg-[#B7FFC9] hover:-translate-y-0.5 hover:shadow-lg active:translate-y-0 transition-all duration-200 rounded-none cursor-pointer mono uppercase flex items-center justify-center gap-2"
+                className="cta-solid group/btn relative w-full mt-8 py-4 text-xs sm:text-sm tracking-widest"
               >
                 <span>CLAIM YOUR SPOT</span>
                 <span className="inline-block transition-transform duration-200 group-hover/btn:translate-x-1.5">→</span>

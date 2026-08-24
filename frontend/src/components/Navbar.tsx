@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from 'react';
-import { motion, useScroll, useSpring, useReducedMotion } from 'motion/react';
+import React, { useState, useEffect, useRef } from 'react';
+import { motion, AnimatePresence, useScroll, useSpring, useReducedMotion } from 'motion/react';
 import { Volume2, VolumeX, Menu, X, Sun, Moon } from 'lucide-react';
 import { playTactileClick, toggleSound, isSoundEnabled } from '../utils/audio';
 import { useTheme } from '../context/ThemeContext';
 import { REGISTRATION_URL } from '../data/mockData';
-import { useActiveSection } from '../lib/motion';
+import { useActiveSection, EASE_OUT } from '../lib/motion';
 import logoUrl from '../../assets/image.png';
 
 interface NavbarProps {
@@ -24,6 +24,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenPartners }) => {
   const [soundOn, setSoundOn] = useState(true);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const menuButtonRef = useRef<HTMLButtonElement>(null);
   const { theme, toggleTheme } = useTheme();
   const reduced = useReducedMotion();
 
@@ -42,6 +43,23 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenPartners }) => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  /* Scroll lock + Escape while the mobile sheet is open */
+  useEffect(() => {
+    if (!mobileMenuOpen) return;
+    document.body.style.overflow = 'hidden';
+    const handleKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        setMobileMenuOpen(false);
+        menuButtonRef.current?.focus();
+      }
+    };
+    window.addEventListener('keydown', handleKey);
+    return () => {
+      document.body.style.overflow = '';
+      window.removeEventListener('keydown', handleKey);
+    };
+  }, [mobileMenuOpen]);
+
   const handleSoundToggle = () => {
     const next = toggleSound();
     setSoundOn(next);
@@ -55,33 +73,46 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenPartners }) => {
 
   const scrollToSection = (id: string) => {
     playTactileClick();
-    setMobileMenuOpen(false);
-    const element = document.getElementById(id);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
+    if (!mobileMenuOpen) {
+      const element = document.getElementById(id);
+      if (element) element.scrollIntoView({ behavior: 'smooth' });
+      return;
     }
+    /* Defer until the scroll-lock effect has cleaned up */
+    setMobileMenuOpen(false);
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        const element = document.getElementById(id);
+        if (element) element.scrollIntoView({ behavior: 'smooth' });
+      });
+    });
   };
 
-  const renderNavLink = (id: string, label: string, mobile: boolean) => {
+  const renderNavLink = (id: string, label: string, mobile: boolean, index?: number) => {
     const isActive = activeSection === id;
     if (mobile) {
       return (
-        <button
+        <motion.button
           key={id}
+          initial={reduced ? false : { opacity: 0, x: -18 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.45, delay: 0.08 + (index ?? 0) * 0.06, ease: EASE_OUT }}
           onClick={() => scrollToSection(id)}
-          className={`text-left py-2.5 border-b transition-colors uppercase flex items-center justify-between cursor-pointer ${
+          aria-current={isActive ? 'true' : undefined}
+          className={`group text-left py-4 sm:py-5 border-b transition-colors uppercase flex items-baseline gap-4 cursor-pointer ${
             isActive
               ? 'text-emerald-700 dark:text-accent border-emerald-600/40 dark:border-accent/30'
-              : 'text-slate-700 dark:text-[#A9ADA9] hover:text-slate-950 dark:hover:text-[#F5F5F0] border-slate-200 dark:border-[#1A1C1A]'
+              : 'text-slate-800 dark:text-[#A9ADA9] hover:text-slate-950 dark:hover:text-[#F5F5F0] border-slate-200 dark:border-[#1A1C1A]'
           }`}
         >
-          <span>{label}</span>
-          <span
-            className={`w-1 h-1 rounded-full transition-opacity ${
-              isActive ? 'bg-emerald-600 dark:bg-accent opacity-100' : 'opacity-0'
-            }`}
-          />
-        </button>
+          <span className={`mono text-[10px] tracking-[0.2em] ${isActive ? 'text-emerald-600 dark:text-accent' : 'text-slate-400 dark:text-[#565C57]'}`}>
+            {String((index ?? 0) + 1).padStart(2, '0')}
+          </span>
+          <span className="font-display font-bold text-3xl sm:text-4xl tracking-tight leading-none">
+            {labelFor(label)}
+          </span>
+          <span className="ml-auto self-center font-mono text-lg opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300 text-emerald-600 dark:text-accent" aria-hidden="true">→</span>
+        </motion.button>
       );
     }
     return (
@@ -89,12 +120,15 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenPartners }) => {
         key={id}
         onClick={() => scrollToSection(id)}
         aria-current={isActive ? 'true' : undefined}
-        className={`relative py-1 uppercase transition-colors cursor-pointer ${
+        className={`relative py-1 uppercase transition-colors cursor-pointer group/link inline-flex items-start gap-1 ${
           isActive
             ? 'text-emerald-700 dark:text-accent'
             : 'text-slate-700 dark:text-[#A9ADA9] hover:text-slate-950 dark:hover:text-[#F5F5F0]'
         }`}
       >
+        <span className={`mono text-[8px] tracking-[0.12em] mt-px transition-colors ${isActive ? 'text-emerald-600 dark:text-accent' : 'text-slate-400 dark:text-[#565C57] group-hover/link:text-slate-500 dark:group-hover/link:text-[#565C57]'}`}>
+          {String(NAV_LINKS.findIndex((l) => l.id === id) + 1).padStart(2, '0')}
+        </span>
         {label}
         {isActive && (
           <motion.span
@@ -102,26 +136,38 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenPartners }) => {
             className="absolute -bottom-1 left-0 right-0 h-px bg-emerald-600 dark:bg-accent"
             transition={{ type: 'spring', stiffness: 420, damping: 34 }}
           />
-        )}      </button>
+        )}
+      </button>
     );
   };
+
+  /* Deterministic header background — Tailwind bg utilities on the same element
+     resolve by stylesheet order, not state, so state lives inline instead. */
+  const headerBg = (() => {
+    const dark = theme === 'dark';
+    if (mobileMenuOpen) return dark ? '#0B0D0C' : '#F2F7F1';
+    if (isScrolled) return dark ? 'rgba(5, 6, 5, 0.90)' : 'rgba(242, 247, 241, 0.95)';
+    return dark ? 'rgba(5, 6, 5, 0.40)' : 'rgba(237, 243, 236, 0.55)';
+  })();
 
   return (
     <header
       id="main-navbar"
+      style={{ backgroundColor: headerBg }}
       className={`fixed top-0 left-0 right-0 z-40 transition-all duration-300 ${
-        isScrolled
-          ? 'bg-white/95 dark:bg-[#050605]/90 backdrop-blur-md border-b border-slate-300 dark:border-[#1A1C1A] py-3 shadow-sm'
-          : 'bg-white/60 dark:bg-[#050605]/40 backdrop-blur-xs py-5 border-b border-transparent'
+        isScrolled && !mobileMenuOpen
+          ? 'backdrop-blur-md border-b border-slate-300 dark:border-[#1A1C1A] py-3 shadow-sm'
+          : `backdrop-blur-xs py-5 border-b border-transparent ${mobileMenuOpen ? '!border-slate-300 dark:!border-[#1A1C1A]' : ''}`
       }`}
     >
-      <div className="w-full max-w-[1800px] mx-auto px-5 sm:px-8 lg:px-12 flex items-center justify-between">
+      <div className="relative z-40 w-full max-w-[1800px] mx-auto px-5 sm:px-8 lg:px-12 flex items-center justify-between">
         {/* Brand Left */}
         <a
           href="#"
           onClick={(e) => {
             e.preventDefault();
             playTactileClick();
+            setMobileMenuOpen(false);
             window.scrollTo({ top: 0, behavior: 'smooth' });
           }}
           className="group flex items-center gap-3 select-none"
@@ -142,14 +188,14 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenPartners }) => {
         {/* Desktop Nav Right */}
         <div className="hidden lg:flex items-center gap-6 xl:gap-8">
           <nav className="flex items-center gap-5 xl:gap-7 text-xs uppercase tracking-wider text-slate-700 dark:text-[#A9ADA9] font-medium mono">
-            {NAV_LINKS.map((link) => renderNavLink(link.id, link.label, false))}
+            {NAV_LINKS.map((link, i) => renderNavLink(link.id, link.label, false, i))}
           </nav>
 
           {/* Theme Toggle Button */}
           <button
             onClick={handleThemeToggle}
             title={theme === 'dark' ? 'Switch to Light Theme' : 'Switch to Dark Theme'}
-            className="text-slate-700 dark:text-[#A9ADA9] hover:text-emerald-700 dark:hover:text-accent p-1.5 cursor-pointer border border-slate-300 dark:border-[#1A1C1A] bg-slate-100 dark:bg-[#0B0D0C] transition-colors"
+            className="text-slate-700 dark:text-[#A9ADA9] hover:text-emerald-700 dark:hover:text-accent hover:border-emerald-600/40 dark:hover:border-accent/30 p-1.5 cursor-pointer border border-slate-300 dark:border-[#1A1C1A] bg-[var(--color-bg-elevated)] dark:bg-[#0B0D0C] transition-colors"
             aria-label="Toggle theme"
           >
             {theme === 'dark' ? <Sun size={15} className="text-accent" /> : <Moon size={15} className="text-emerald-700" />}
@@ -159,7 +205,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenPartners }) => {
           <button
             onClick={handleSoundToggle}
             title={soundOn ? 'Mute micro-sounds' : 'Enable micro-sounds'}
-            className="text-slate-700 dark:text-[#A9ADA9] hover:text-emerald-700 dark:hover:text-accent p-1.5 cursor-pointer border border-slate-300 dark:border-[#1A1C1A] bg-slate-100 dark:bg-[#0B0D0C] transition-colors"
+            className="text-slate-700 dark:text-[#A9ADA9] hover:text-emerald-700 dark:hover:text-accent hover:border-emerald-600/40 dark:hover:border-accent/30 p-1.5 cursor-pointer border border-slate-300 dark:border-[#1A1C1A] bg-[var(--color-bg-elevated)] dark:bg-[#0B0D0C] transition-colors"
             aria-label="Toggle tactile sound"
           >
             {soundOn ? <Volume2 size={15} /> : <VolumeX size={15} className="text-slate-400 dark:text-[#565C57]" />}
@@ -172,10 +218,10 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenPartners }) => {
             target="_blank"
             rel="noopener noreferrer"
             onClick={() => playTactileClick(1000, 0.05)}
-            className="group relative bg-emerald-600 hover:bg-emerald-700 dark:bg-accent dark:text-[#050605] dark:hover:bg-[#B7FFC9] text-white px-5 py-2 font-bold tracking-normal rounded-none transition-all duration-200 cursor-pointer text-xs mono shadow-sm hover:shadow-md hover:-translate-y-px inline-flex items-center gap-2"
+            className="cta-solid group px-5 py-2.5 tracking-widest text-xs"
           >
             REGISTER
-            <span className="inline-block transition-transform duration-200 group-hover:translate-x-1">→</span>
+            <span className="inline-block transition-transform duration-200 group-hover:translate-x-1" aria-hidden="true">→</span>
           </a>
         </div>
 
@@ -184,7 +230,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenPartners }) => {
           {/* Mobile Theme Toggle */}
           <button
             onClick={handleThemeToggle}
-            className="p-2 text-slate-700 dark:text-[#A9ADA9] hover:text-emerald-700 dark:hover:text-accent border border-slate-300 dark:border-[#1A1C1A] bg-white dark:bg-[#0B0D0C]"
+            className="p-2 text-slate-700 dark:text-[#A9ADA9] hover:text-emerald-700 dark:hover:text-accent border border-slate-300 dark:border-[#1A1C1A] bg-[var(--color-bg-elevated)] dark:bg-[#0B0D0C]"
             aria-label="Toggle theme"
           >
             {theme === 'dark' ? <Sun size={15} /> : <Moon size={15} />}
@@ -192,7 +238,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenPartners }) => {
 
           <button
             onClick={handleSoundToggle}
-            className="hidden sm:block p-2 text-slate-700 dark:text-[#A9ADA9] hover:text-emerald-700 dark:hover:text-accent border border-slate-300 dark:border-[#1A1C1A] bg-white dark:bg-[#0B0D0C]"
+            className="hidden sm:block p-2 text-slate-700 dark:text-[#A9ADA9] hover:text-emerald-700 dark:hover:text-accent border border-slate-300 dark:border-[#1A1C1A] bg-[var(--color-bg-elevated)] dark:bg-[#0B0D0C]"
             aria-label="Toggle sound"
           >
             {soundOn ? <Volume2 size={15} /> : <VolumeX size={15} className="text-slate-400 dark:text-[#565C57]" />}
@@ -203,20 +249,22 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenPartners }) => {
             target="_blank"
             rel="noopener noreferrer"
             onClick={() => playTactileClick(1000, 0.05)}
-            className="sm:hidden bg-emerald-600 dark:bg-accent text-white dark:text-[#050605] px-3 py-2 mono text-[10px] font-bold uppercase"
+            className="sm:hidden cta-solid px-3 py-2 text-[10px] tracking-wider"
             aria-label="Register for the ideathon"
           >
             REGISTER →
           </a>
 
           <button
+            ref={menuButtonRef}
             onClick={() => {
               playTactileClick();
               setMobileMenuOpen(!mobileMenuOpen);
             }}
             aria-expanded={mobileMenuOpen}
-            className="p-2 text-slate-900 dark:text-[#F5F5F0] hover:text-emerald-700 dark:hover:text-accent border border-slate-300 dark:border-[#1A1C1A] bg-white dark:bg-[#0B0D0C]"
-            aria-label="Toggle Menu"
+            aria-controls="mobile-menu-panel"
+            className="p-2 text-slate-900 dark:text-[#F5F5F0] hover:text-emerald-700 dark:hover:text-accent border border-slate-300 dark:border-[#1A1C1A] bg-[var(--color-bg-elevated)] dark:bg-[#0B0D0C]"
+            aria-label={mobileMenuOpen ? 'Close menu' : 'Open menu'}
           >
             {mobileMenuOpen ? <X size={18} /> : <Menu size={18} />}
           </button>
@@ -230,29 +278,69 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenPartners }) => {
         style={{ scaleX: progressX }}
       />
 
-      {/* Mobile Drawer Menu */}
-      {mobileMenuOpen && (
-        <div className="lg:hidden bg-white dark:bg-[#0B0D0C] border-b border-slate-300 dark:border-[#1A1C1A] px-6 py-6 anim-drawer shadow-lg">
-          <nav className="flex flex-col gap-1 text-sm mono tracking-widest text-slate-700 dark:text-[#A9ADA9]">
-            {NAV_LINKS.map((link, i) =>
-              renderNavLink(link.id, `0${i + 1} // ${labelFor(link.label)}`, true)
-            )}
+      {/* Mobile Full-Screen Menu Sheet */}
+      <AnimatePresence>
+        {mobileMenuOpen && (
+          <motion.div
+            id="mobile-menu-panel"
+            initial={reduced ? { opacity: 0 } : { opacity: 0, y: -12 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={reduced ? { opacity: 0 } : { opacity: 0, y: -8 }}
+            transition={{ duration: 0.28, ease: EASE_OUT }}
+            className="lg:hidden fixed inset-0 top-0 z-30 bg-[#F2F7F1] dark:bg-[#0B0D0C] overflow-y-auto overscroll-contain"
+          >
+            {/* Clear the fixed header bar */}
+            <div className="h-[68px] sm:h-[76px]" aria-hidden="true" />
 
-            <a
-              href={REGISTRATION_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              onClick={() => {
-                setMobileMenuOpen(false);
-                playTactileClick(1000);
-              }}
-              className="mt-3 w-full flex items-center justify-center gap-2 py-3 bg-emerald-600 hover:bg-emerald-700 text-white dark:bg-accent dark:text-[#050605] dark:hover:opacity-90 mono text-xs font-bold uppercase tracking-wider rounded-none transition-colors"
-            >
-              <span>REGISTER FOR IDEATHON →</span>
-            </a>
-          </nav>
-        </div>
-      )}
+            {/* Ghost numeral backdrop */}
+            <div aria-hidden="true" className="ghost-numeral absolute -bottom-8 -right-4 text-[220px] opacity-[0.04] dark:opacity-[0.05] pointer-events-none select-none">
+              KZ
+            </div>
+            <div aria-hidden="true" className="absolute inset-x-0 top-0 h-56 grid-subtle opacity-40 dark:opacity-25 grid-fade-y pointer-events-none" />
+
+            <nav className="relative z-10 flex flex-col px-6 sm:px-8 pt-6 pb-10 min-h-full">
+              <div className="mono text-[9px] tracking-[0.28em] uppercase text-slate-500 dark:text-[#565C57]/80 mb-2">
+                MENU.INDEX // KAIZEN_SYSTEM
+              </div>
+
+              <div className="flex flex-col text-sm mono tracking-widest text-slate-700 dark:text-[#A9ADA9]">
+                {NAV_LINKS.map((link, i) => renderNavLink(link.id, link.label, true, i))}
+
+                <motion.a
+                  href={REGISTRATION_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={() => {
+                    setMobileMenuOpen(false);
+                    playTactileClick(1000);
+                  }}
+                  initial={reduced ? false : { opacity: 0, y: 14 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.45, delay: 0.34, ease: EASE_OUT }}
+                  className="mt-8 w-full cta-solid py-4 text-xs tracking-widest"
+                >
+                  <span>REGISTER FOR IDEATHON</span>
+                  <span aria-hidden="true">→</span>
+                </motion.a>
+              </div>
+
+              <motion.div
+                initial={reduced ? false : { opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.5, delay: 0.42 }}
+                className="mt-auto pt-10 flex items-center justify-between mono text-[9px] tracking-[0.22em] uppercase text-slate-400 dark:text-[#3D443D]/70"
+                aria-hidden="true"
+              >
+                <span>NODE: DELHI_KALKAJI</span>
+                <span className="flex items-center gap-1.5">
+                  <span className="w-1 h-1 bg-emerald-600/70 dark:bg-accent/60 blink-dot inline-block" />
+                  SYS_OK
+                </span>
+              </motion.div>
+            </nav>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </header>
   );
 };

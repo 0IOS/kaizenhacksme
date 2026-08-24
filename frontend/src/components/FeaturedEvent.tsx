@@ -286,7 +286,7 @@ export const FeaturedEvent: React.FC<FeaturedEventProps> = ({ onSelectEventDetai
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={() => playTactileClick(1000, 0.06)}
-                className="group relative px-8 py-3.5 bg-emerald-600 hover:bg-emerald-700 dark:bg-accent dark:hover:bg-[#B7FFC9] text-white dark:text-[#050605] mono font-bold text-sm uppercase tracking-widest flex items-center justify-center gap-3 transition-all duration-200 cursor-pointer shadow-md hover:shadow-[5px_5px_0px_0px_rgba(6,78,59,0.35)] dark:hover:shadow-[5px_5px_0px_0px_rgba(141,255,179,0.22)] hover:-translate-x-0.5 hover:-translate-y-0.5 active:translate-x-0 active:translate-y-0"
+                className="cta-solid group relative px-8 py-3.5 text-sm tracking-widest"
               >
                 <span>REGISTER NOW</span>
                 <ArrowRight size={17} className="group-hover:translate-x-1.5 transition-transform duration-200" />

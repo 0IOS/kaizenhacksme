@@ -73,9 +73,10 @@ export const Partners: React.FC<PartnersProps> = ({ onOpenPartnerInquiry }) => {
 
                 {/* Bottom tier + description reveal */}
                 <div>
-                  <div className="text-[9px] mono text-slate-500 dark:text-[#565C57] tracking-widest uppercase font-medium group-hover:text-emerald-700 dark:group-hover:text-accent transition-colors duration-300">
+                  <span className="inline-flex items-center gap-1.5 text-[9px] mono tracking-[0.18em] uppercase font-bold px-2 py-1 border border-slate-200 dark:border-[#242825] bg-slate-50 dark:bg-[#050605] text-slate-600 dark:text-[#565C57] group-hover:border-emerald-600/40 dark:group-hover:border-accent/30 group-hover:text-emerald-700 dark:group-hover:text-accent transition-colors duration-300">
+                    <span className="w-1 h-1 bg-emerald-600/50 dark:bg-accent/40 group-hover:bg-emerald-600 dark:group-hover:bg-accent transition-colors duration-300" aria-hidden="true" />
                     TIER: {partner.tier}
-                  </div>
+                  </span>
                   <p className="mt-2 text-[10px] leading-relaxed mono text-slate-500 dark:text-[#565C57] opacity-0 max-h-0 group-hover:opacity-100 group-hover:max-h-16 overflow-hidden transition-all duration-300 ease-out">
                     {partner.description}
                   </p>
@@ -99,7 +100,7 @@ export const Partners: React.FC<PartnersProps> = ({ onOpenPartnerInquiry }) => {
               playTactileClick(1000, 0.05);
               onOpenPartnerInquiry();
             }}
-            className="group inline-flex items-center gap-3 px-6 py-3.5 bg-emerald-600 dark:bg-accent text-white dark:text-[#050605] hover:bg-emerald-700 dark:hover:bg-[#B7FFC9] text-xs mono font-bold uppercase tracking-widest transition-all duration-200 cursor-pointer rounded-none shadow-sm hover:shadow-md hover:-translate-y-px shrink-0"
+            className="cta-solid group px-6 py-3.5 text-xs tracking-widest shrink-0"
           >
             <span>BECOME A PARTNER</span>
             <span className="group-hover:translate-x-1 transition-all">→</span>

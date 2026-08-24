@@ -13,7 +13,7 @@ export const RegisterCTA: React.FC = () => {
   return (
     <section
       id="registration-cta"
-      className="relative min-h-[60vh] flex flex-col justify-center items-center py-24 sm:py-28 px-5 sm:px-8 bg-[#E4EEE3] dark:bg-[#050605] border-t border-slate-300 dark:border-[#1A1C1A] overflow-hidden text-center select-none"
+      className="relative min-h-[52vh] flex flex-col justify-center items-center py-20 sm:py-24 px-5 sm:px-8 bg-[#E4EEE3] dark:bg-[#050605] border-t border-slate-300 dark:border-[#1A1C1A] overflow-hidden text-center select-none"
     >
       {/* Minimal grid — barely there */}
       <div className="absolute inset-0 tech-grid opacity-[0.06] dark:opacity-[0.12] pointer-events-none" />
@@ -62,7 +62,7 @@ export const RegisterCTA: React.FC = () => {
             target="_blank"
             rel="noopener noreferrer"
             onClick={() => playTactileClick(1100, 0.06)}
-            className="group relative inline-flex items-center gap-4 px-8 sm:px-12 py-5 sm:py-6 bg-emerald-600 hover:bg-emerald-700 dark:bg-accent dark:hover:bg-[#B7FFC9] text-white dark:text-[#050605] mono font-bold text-sm sm:text-base uppercase tracking-widest transition-all duration-200 cursor-pointer rounded-none shadow-md hover:shadow-[6px_6px_0px_0px_rgba(6,78,59,0.35)] dark:hover:shadow-[6px_6px_0px_0px_rgba(141,255,179,0.22)] hover:-translate-x-0.5 hover:-translate-y-0.5 active:translate-x-0 active:translate-y-0"
+            className="cta-solid group px-8 sm:px-12 py-5 sm:py-6 text-sm sm:text-base tracking-widest"
           >
             <span>NEXT EVENT (GREENTECH IDEATHON)</span>
             <ArrowRight size={20} className="group-hover:translate-x-2 transition-transform duration-200" />
