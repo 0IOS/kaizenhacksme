@@ -45,7 +45,7 @@ export const ThePeople: React.FC = () => {
                     alt={`${person.name} — ${person.role}`}
                     loading="lazy"
                     decoding="async"
-                    className="w-full h-full object-cover grayscale contrast-125 group-hover:[filter:grayscale(88%)_contrast(112%)_brightness(106%)] group-hover:scale-[1.04] transition-all duration-500 opacity-90 group-hover:opacity-100 will-change-transform"
+                    className="w-full h-full object-cover grayscale contrast-125 group-hover:[filter:grayscale(90%)_contrast(112%)_brightness(106%)] group-hover:scale-[1.03] transition-all duration-500 opacity-90 group-hover:opacity-100 will-change-transform"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-white dark:from-[#0B0D0C] via-transparent to-transparent opacity-85" />
 

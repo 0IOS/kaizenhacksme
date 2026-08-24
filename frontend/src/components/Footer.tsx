@@ -42,10 +42,9 @@ export const Footer: React.FC<FooterProps> = ({ onOpenPartnerInquiry }) => {
   };
 
   return (
-    <footer className="bg-slate-50 dark:bg-[#050605] border-t border-slate-300 dark:border-[#1A1C1A] w-full select-none">
-      <div className="shell px-5 sm:px-8 lg:px-12 pt-16 sm:pt-20 pb-10">
+    <footer className="bg-[#F2F7F1] dark:bg-[#050605] border-t border-slate-300 dark:border-[#1A1C1A] pt-14 sm:pt-16 pb-8 px-5 sm:px-8 lg:px-12 w-full select-none">
       {/* Top Navigation & Minimal Columns */}
-      <div className="grid grid-cols-1 md:grid-cols-12 gap-8 pb-8 border-b border-slate-200 dark:border-[#1A1C1A]">
+      <div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-10 pb-10 border-b border-slate-200 dark:border-[#1A1C1A]">
         {/* Left Col: Brand & System Status */}
         <div className="md:col-span-5 flex flex-col justify-between">
           <div>
@@ -195,7 +194,7 @@ export const Footer: React.FC<FooterProps> = ({ onOpenPartnerInquiry }) => {
 
           <button
             onClick={scrollToTop}
-            className="mt-5 md:mt-0 flex items-center gap-2 text-xs mono text-slate-700 dark:text-[#A9ADA9] hover:text-emerald-700 dark:hover:text-accent font-semibold transition-colors cursor-pointer"
+            className="mt-6 md:mt-0 flex items-center gap-2 text-xs mono text-slate-700 dark:text-[#A9ADA9] hover:text-emerald-700 dark:hover:text-accent font-semibold transition-colors cursor-pointer"
           >
             <span>BACK TO TOP</span>
             <ArrowUp size={14} />
@@ -204,8 +203,8 @@ export const Footer: React.FC<FooterProps> = ({ onOpenPartnerInquiry }) => {
       </div>
 
       {/* FOOTER BAR */}
-      <div className="mt-8 flex flex-col md:flex-row justify-between items-start md:items-center gap-4 text-[10px] mono text-slate-600 dark:text-[#A9ADA9]">
-        <div className="flex flex-wrap items-center gap-6 sm:gap-8 font-medium">
+      <div className="mt-6 flex flex-col md:flex-row justify-between items-start md:items-center gap-4 text-[10px] mono text-slate-600 dark:text-[#A9ADA9]">
+        <div className="flex flex-wrap items-center gap-x-6 sm:gap-x-8 gap-y-1 font-medium">
           <span className="text-emerald-700 dark:text-accent font-bold">SUPPORTED BY</span>
           {PARTNERS.slice(0, 4).map((p) => (
             <a
@@ -232,7 +231,7 @@ export const Footer: React.FC<FooterProps> = ({ onOpenPartnerInquiry }) => {
       </div>
 
       {/* Subtle Bottom Coordinates & Node Status */}
-      <div className="pt-4 mt-4 border-t border-slate-200 dark:border-[#1A1C1A]/60 flex flex-col sm:flex-row items-center justify-between text-[9px] mono text-slate-500 dark:text-[#565C57]">
+      <div className="pt-5 mt-5 border-t border-slate-200 dark:border-[#1A1C1A]/60 flex flex-col sm:flex-row items-center justify-between text-[9px] mono text-slate-500 dark:text-[#565C57]">
         <div>KAIZEN_SYSTEM_ONLINE // B_01 // 28.6139° N, 77.2090° E</div>
         <div className="mt-1 sm:mt-0">NEW DELHI // KALKAJI</div>
       </div>

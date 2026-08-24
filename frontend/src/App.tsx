@@ -9,6 +9,7 @@ import { EventArchive } from './components/EventArchive';
 import { ThePeople } from './components/ThePeople';
 import { Partners } from './components/Partners';
 import { RegisterCTA } from './components/RegisterCTA';
+import { Contact } from './components/Contact';
 import { Footer } from './components/Footer';
 import { EventDetailModal } from './components/EventDetailModal';
 import { PartnerInquiryModal } from './components/PartnerInquiryModal';
@@ -76,9 +77,14 @@ export default function App() {
 
         {/* 8. Registration Full-Screen CTA */}
         <RegisterCTA />
+
+        <SectionDivider label="SIGNAL.US // MAIL_LINK" />
+
+        {/* 9. Contact — Direct Channel */}
+        <Contact />
       </main>
 
-      {/* 9. Minimal Footer */}
+      {/* 10. Minimal Footer */}
       <Footer onOpenPartnerInquiry={() => setPartnerModalOpen(true)} />
 
       {/* Modals and Sheets */}

@@ -146,7 +146,7 @@ export const EventArchive: React.FC<EventArchiveProps> = ({ onSelectEvent }) => 
                     target="_blank"
                     rel="noopener noreferrer"
                     onClick={() => playTactileClick(1000, 0.05)}
-                    className="inline-flex w-fit items-center gap-2 px-5 py-3 bg-emerald-600 dark:bg-accent text-white dark:text-[#050605] hover:bg-emerald-700 dark:hover:bg-[#B7FFC9] text-xs mono font-bold uppercase tracking-widest transition-all duration-200 hover:-translate-y-px hover:shadow-md"
+                    className="cta-solid w-fit px-5 py-3 text-xs tracking-widest"
                   >
                     WRITE VOL.01 WITH US <ArrowRight size={14} />
                   </a>

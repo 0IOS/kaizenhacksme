@@ -73,6 +73,17 @@ export const ORGANIZERS: Organizer[] = [
     linkedin: 'https://linkedin.com'
   },
   {
+    id: 'anshikah',
+    name: 'AANSHIKA',
+    role: 'GRAPHIC DESIGNER',
+    division: 'DESIGN LEAD',
+    tagline: 'Creating the visual identity of Kaizenhacksme',
+    image: 'https://images.unsplash.com/photo-1517841905240-472988babdf9?q=80&w=800&auto=format&fit=crop',
+    github: 'https://github.com/0ios',
+    // twitter: 'https://x.com',
+    linkedin: 'https://linkedin.com'
+  },
+  {
     id: 'yash',
     name: 'YASH PRATAP SINGH',
     role: 'Founder & Social Media Manager',
