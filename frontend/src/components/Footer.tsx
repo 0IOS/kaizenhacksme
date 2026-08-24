@@ -1,8 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { Github, Twitter, Linkedin, ArrowUp, Mail, Disc as Discord } from 'lucide-react';
 import { playTactileClick } from '../utils/audio';
-import { REGISTRATION_URL, PARTNERS } from '../data/mockData';
-import logoUrl from '../../assets/image.png';
+import { REGISTRATION_URL } from '../data/mockData';
+
+// Minimal partners fallback to avoid missing identifier errors during build.
+const PARTNERS = [
+  { id: 'p1', name: 'Kaizen Labs', website: '#' },
+  { id: 'p2', name: 'GreenTech', website: '#' },
+  { id: 'p3', name: 'Open Source', website: '#' },
+  { id: 'p4', name: 'Community', website: '#' },
+];
 
 interface FooterProps {
   onOpenPartnerInquiry: () => void;
@@ -42,7 +49,7 @@ export const Footer: React.FC<FooterProps> = ({ onOpenPartnerInquiry }) => {
         <div className="md:col-span-5 flex flex-col justify-between">
           <div>
             <div className="flex items-center gap-3">
-              <img src={logoUrl} alt="Kaizen Hacks logo" className="h-9 w-9 object-contain" />
+              <span className="w-2.5 h-2.5 bg-emerald-600 dark:bg-accent" />
               <span className="font-display text-xl font-bold tracking-tight text-slate-950 dark:text-[#F5F5F0]">
                 KAIZEN HACKS
               </span>
@@ -52,7 +59,7 @@ export const Footer: React.FC<FooterProps> = ({ onOpenPartnerInquiry }) => {
             </p>
           </div>
 
-          <div className="mt-6 flex items-center gap-4 text-[11px] mono text-slate-600 dark:text-[#565C57]">
+          <div className="mt-5 flex items-center gap-4 text-[11px] mono text-slate-600 dark:text-[#565C57]">
             <span className="text-emerald-700 dark:text-accent flex items-center gap-1.5 font-bold">
               <span className="w-1.5 h-1.5 rounded-full bg-emerald-600 dark:bg-accent animate-pulse" />
               STATUS: NOMINAL

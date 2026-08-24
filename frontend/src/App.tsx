@@ -41,7 +41,7 @@ export default function App() {
       <Navbar onOpenPartners={() => setPartnerModalOpen(true)} />
 
       {/* Main Content Sections */}
-      <main className="relative z-10">
+      <main className="relative z-10 flex-1">
         {/* 1. Hero Section */}
         <Hero onScrollToNextEvent={handleScrollToNextEvent} />
 

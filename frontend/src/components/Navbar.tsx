@@ -5,7 +5,6 @@ import { playTactileClick, toggleSound, isSoundEnabled } from '../utils/audio';
 import { useTheme } from '../context/ThemeContext';
 import { REGISTRATION_URL } from '../data/mockData';
 import { useActiveSection, EASE_OUT } from '../lib/motion';
-import logoUrl from '../../assets/image.png';
 
 interface NavbarProps {
   onOpenPartners?: () => void;
@@ -172,11 +171,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenPartners }) => {
           }}
           className="group flex items-center gap-3 select-none"
         >
-          <img
-            src={logoUrl}
-            alt="Kaizen Hacks logo"
-            className="h-9 w-9 object-contain group-hover:scale-110 transition-transform duration-200"
-          />
+          <div className="w-2.5 h-2.5 bg-emerald-600 dark:bg-accent group-hover:scale-110 transition-transform duration-200" />
           <span className="font-display font-bold text-xl tracking-tight text-slate-950 dark:text-[#F5F5F0]">
             KAIZEN HACKS
           </span>

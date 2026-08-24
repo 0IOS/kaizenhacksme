@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { motion, AnimatePresence, useReducedMotion, useScroll, useTransform } from 'motion/react';
+import { motion, useScroll, useTransform, useReducedMotion, AnimatePresence, type Variants } from 'motion/react';
 import { playTactileClick } from '../utils/audio';
 import { useCursorParallax, useTilt, CornerBrackets, EASE_OUT } from '../lib/motion';
 import { FEATURED_EVENT, REGISTRATION_URL, VENUE_MAPS_URL } from '../data/mockData';
@@ -44,7 +44,7 @@ export const Hero: React.FC<HeroProps> = ({ onScrollToNextEvent }) => {
   useEffect(() => {
     const interval = setInterval(() => {
       setHeadlineIndex((prev) => (prev + 1) % headlines.length);
-    }, 6500);
+    }, 2500);
     return () => clearInterval(interval);
   }, [headlines.length]);
 
