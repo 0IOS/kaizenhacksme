@@ -108,7 +108,7 @@ export const BackgroundCanvas: React.FC = () => {
 
   const gridImage = isDark
     ? 'linear-gradient(to right, #101310 1px, transparent 1px), linear-gradient(to bottom, #101310 1px, transparent 1px)'
-    : 'linear-gradient(to right, #E2E8F0 1px, transparent 1px), linear-gradient(to bottom, #E2E8F0 1px, transparent 1px)';
+    : 'linear-gradient(to right, #DEE8DB 1px, transparent 1px), linear-gradient(to bottom, #DEE8DB 1px, transparent 1px)';
   const fineImage = isDark
     ? 'radial-gradient(circle at 70% 28%, rgba(141, 255, 179, 0.05) 0%, transparent 62%)'
     : 'radial-gradient(circle at 70% 28%, rgba(5, 150, 105, 0.07) 0%, transparent 62%)';
@@ -117,7 +117,7 @@ export const BackgroundCanvas: React.FC = () => {
 
   return (
     <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden select-none" aria-hidden="true">
-      <div className={`absolute inset-0 transition-colors duration-300 ${isDark ? 'bg-[#050605]' : 'bg-[#F1F3F6]'}`} />
+      <div className={`absolute inset-0 transition-colors duration-300 ${isDark ? 'bg-[#050605]' : 'bg-[#EDF3EC]'}`} />
 
       {/* Layer 1 — technical grid: slow drift + scroll parallax */}
       <motion.div style={{ y: gridY }} className="absolute inset-x-0 -top-80 -bottom-80">

@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { motion, useScroll, useTransform } from 'motion/react';
+import { motion, useScroll, useTransform, type Variants } from 'motion/react';
 import { playTactileClick } from '../utils/audio';
-import { useCursorParallax, useTilt, CornerBrackets } from '../lib/motion';
+import { useCursorParallax, useTilt, CornerBrackets, EASE_OUT } from '../lib/motion';
 import { FEATURED_EVENT, REGISTRATION_URL, VENUE_MAPS_URL } from '../data/mockData';
 
 interface HeroProps {
@@ -11,6 +11,7 @@ interface HeroProps {
 export const Hero: React.FC<HeroProps> = ({ onScrollToNextEvent }) => {
   const [headlineIndex, setHeadlineIndex] = useState(0);
   const containerRef = useRef<HTMLDivElement>(null);
+  const reduced = useReducedMotion();
 
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -43,9 +44,11 @@ export const Hero: React.FC<HeroProps> = ({ onScrollToNextEvent }) => {
   useEffect(() => {
     const interval = setInterval(() => {
       setHeadlineIndex((prev) => (prev + 1) % headlines.length);
-    }, 6500);
+    }, 2500);
     return () => clearInterval(interval);
   }, [headlines.length]);
+
+  const current = headlines[headlineIndex];
 
   return (
     <section
@@ -53,8 +56,33 @@ export const Hero: React.FC<HeroProps> = ({ onScrollToNextEvent }) => {
       id="hero-section"
       className="relative min-h-[92vh] flex flex-col justify-between pt-24 sm:pt-32 pb-12 sm:pb-16 px-5 sm:px-8 lg:px-12 w-full overflow-hidden select-none"
     >
-      {/* Floating environmental decorations */}
+      {/* Technical backdrop — ghost numeral, crosshair grid, system nodes (4–7% ink) */}
       <motion.div style={{ x: decoX, y: decoY }} className="absolute inset-0 pointer-events-none hidden lg:block" aria-hidden="true">
+        {/* Oversized edition numeral */}
+        <div className="ghost-numeral absolute -bottom-14 -left-6 text-[340px] xl:text-[420px] opacity-[0.05] dark:opacity-[0.06]">
+          01
+        </div>
+
+        {/* Crosshair through orbital ring */}
+        <div className="absolute top-[calc(24%+7rem)] right-[calc(4%+7rem)] w-[42rem] max-w-[70vw] h-px bg-slate-400/25 dark:bg-[#1E231F]" />
+        <div className="absolute top-[calc(24%-14rem)] right-[calc(4%+7rem)] w-px h-[42rem] max-h-[80vh] bg-slate-400/20 dark:bg-[#161A17]" />
+
+        {/* Measurement ticks along the crosshair */}
+        <div className="absolute top-[calc(24%+7rem)] right-[calc(4%+9rem)] flex gap-6">
+          {[...Array(5)].map((_, i) => (
+            <span key={i} className={`w-px bg-slate-400/40 dark:bg-[#242825] ${i % 2 === 0 ? 'h-2' : 'h-1'}`} />
+          ))}
+        </div>
+
+        {/* Node cluster */}
+        <div className="absolute top-[calc(24%+7rem)] right-[calc(4%+7rem)]">
+          <span className="absolute -translate-x-1/2 -translate-y-1/2 w-1.5 h-1.5 rounded-full bg-emerald-600 dark:bg-accent opacity-50 blink-dot" />
+        </div>
+        <span className="absolute top-[calc(24%+8.5rem)] right-[calc(4%+8.5rem)] mono text-[8px] tracking-[0.3em] text-slate-400 dark:text-[#333833]/70 uppercase">
+          NODE_28 // SYNCED
+        </span>
+
+        {/* Floating environmental decorations */}
         <div className="float-deco absolute top-[30%] right-[38%] text-accent/40 dark:text-accent/30 mono text-sm select-none" style={{ ['--f-min' as string]: 0.25, ['--f-max' as string]: 0.55 }}>
           +
         </div>
@@ -72,8 +100,13 @@ export const Hero: React.FC<HeroProps> = ({ onScrollToNextEvent }) => {
         </div>
       </motion.div>
 
+      {/* Vertical sector coordinates */}
+      <div className="absolute top-1/3 right-3 mono text-[9px] tracking-widest text-slate-400 dark:text-[#1A1C1A] rotate-90 origin-right hidden xl:block pointer-events-none" aria-hidden="true">
+        SECTOR.07 // 28.5270° N — 77.2590° E
+      </div>
+
       {/* Micro Status Bar / Coordinate Header */}
-      <motion.div style={{ x: metaX, y: metaY }}>
+      <motion.div style={{ x: metaX, y: metaY }} className="relative z-10">
         <motion.div
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
@@ -93,6 +126,9 @@ export const Hero: React.FC<HeroProps> = ({ onScrollToNextEvent }) => {
         </div>
 
         <div className="flex items-center gap-4 text-emerald-700 dark:text-accent">
+          <span className="hidden lg:inline mono text-[10px] text-slate-500 dark:text-[#565C57]/90">
+            SYS.STATUS // ONLINE
+          </span>
           <span className="hidden md:inline mono text-[10px] text-slate-600 dark:text-[#A9ADA9]">
             PROTOCOL: V2.6_STABLE
           </span>
@@ -104,7 +140,7 @@ export const Hero: React.FC<HeroProps> = ({ onScrollToNextEvent }) => {
       </motion.div>
 
       {/* Clean Minimalism Split Hero Layout with Parallax */}
-      <div className="flex-grow flex flex-col lg:flex-row gap-8 z-10 my-auto py-2">
+      <div className="relative z-10 flex-grow flex flex-col lg:flex-row gap-8 my-auto py-2">
 
         {/* LEFT COLUMN: HERO HEADLINE & METRICS */}
         <motion.div
@@ -125,11 +161,53 @@ export const Hero: React.FC<HeroProps> = ({ onScrollToNextEvent }) => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.9, delay: 0.5 }}
-              className="font-display text-[52px] sm:text-[76px] md:text-[90px] lg:text-[102px] leading-[0.88] font-bold tracking-tight text-slate-950 dark:text-[#F5F5F0] uppercase mb-6 select-none"
+              className="font-display text-[clamp(2.75rem,11vw,3.25rem)] sm:text-[76px] md:text-[90px] lg:text-[102px] leading-[0.88] font-bold tracking-tight text-slate-950 dark:text-[#F5F5F0] uppercase mb-6 select-none"
             >
-              <div>{headlines[headlineIndex].line1}</div>
-              <div className="text-slate-500 dark:text-[#A9ADA9]/60">{headlines[headlineIndex].line2}</div>
-              <div className="text-emerald-600 dark:text-accent">{headlines[headlineIndex].line3}</div>
+              <motion.div style={{ x: pinned ? pLine1X : undefined }}>
+                <motion.div {...introChildProps('left', introDist)}>
+                  <motion.div
+                    key={headlineIndex}
+                    initial={{ opacity: 0, y: 14 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -10 }}
+                    transition={{ duration: 0.45, ease: EASE_OUT }}
+                  >
+                    <div>{current.line1}</div>
+                    <div className="text-slate-500 dark:text-[#A9ADA9]/60">{current.line2}</div>
+                    <div className="text-emerald-600 dark:text-accent">{current.line3}</div>
+                  </motion.div>
+                </motion.div>
+              </motion.div>
+              <motion.div
+                style={{ x: pinned ? pLine2X : undefined }}
+                className="text-slate-500 dark:text-[#A9ADA9]/60"
+              >
+                <motion.div {...introChildProps('right', introDist)}>
+                  <motion.div
+                    key={`l2-${headlineIndex}`}
+                    initial={reduced ? false : { opacity: 0, y: 12 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.45, delay: 0.06, ease: EASE_OUT }}
+                  >
+                    {headlines[headlineIndex].line2}
+                  </motion.div>
+                </motion.div>
+              </motion.div>
+              <motion.div
+                style={{ y: pinned ? pLine3Y : undefined, rotate: pinned ? pLine3R : undefined }}
+                className="text-emerald-600 dark:text-accent"
+              >
+                <motion.div {...introChildProps('diag', Math.round(introDist * 0.85))}>
+                  <motion.div
+                    key={`l3-${headlineIndex}`}
+                    initial={reduced ? false : { opacity: 0, y: 12 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.45, delay: 0.12, ease: EASE_OUT }}
+                  >
+                    {headlines[headlineIndex].line3}
+                  </motion.div>
+                </motion.div>
+              </motion.div>
             </motion.h1>
 
             <motion.p
@@ -151,15 +229,15 @@ export const Hero: React.FC<HeroProps> = ({ onScrollToNextEvent }) => {
               className="border-t border-slate-300 dark:border-[#1A1C1A] pt-8 mt-10 flex flex-wrap gap-8 sm:gap-12"
             >
             <div>
-              <p className="mono text-[10px] text-slate-600 dark:text-[#A9ADA9] mb-1 font-semibold">SCALE</p>
+              <p className="mono text-[10px] text-slate-600 dark:text-[#A9ADA9] mb-1 font-semibold"><span className="text-emerald-600 dark:text-accent mr-1">▪</span>SCALE</p>
               <p className="font-display text-2xl sm:text-3xl font-bold text-slate-950 dark:text-[#F5F5F0]">DEBUT EDITION</p>
             </div>
             <div>
-              <p className="mono text-[10px] text-slate-600 dark:text-[#A9ADA9] mb-1 font-semibold">COMMUNITY</p>
+              <p className="mono text-[10px] text-slate-600 dark:text-[#A9ADA9] mb-1 font-semibold"><span className="text-emerald-600 dark:text-accent mr-1">▪</span>COMMUNITY</p>
               <p className="font-display text-2xl sm:text-3xl font-bold text-slate-950 dark:text-[#F5F5F0]">FOUNDING 50</p>
             </div>
             <div>
-              <p className="mono text-[10px] text-slate-600 dark:text-[#A9ADA9] mb-1 font-semibold">GRANTS POOL</p>
+              <p className="mono text-[10px] text-slate-600 dark:text-[#A9ADA9] mb-1 font-semibold"><span className="text-emerald-600 dark:text-accent mr-1">▪</span>GRANTS POOL</p>
               <p className="font-display text-2xl sm:text-3xl font-bold text-emerald-600 dark:text-accent">UNLOCKING SOON</p>
             </div>
             </motion.div>
@@ -177,12 +255,16 @@ export const Hero: React.FC<HeroProps> = ({ onScrollToNextEvent }) => {
           <motion.div
             style={{ x: panelX, y: panelY, ...tilt.style }}
             {...tilt.handlers}
-            className="event-panel flex-grow p-6 sm:p-8 border border-slate-300 dark:border-[#1A1C1A] bg-white dark:bg-[#0B0D0C] relative flex flex-col justify-between overflow-hidden group shadow-md hover:shadow-xl hover:border-emerald-600/50 dark:hover:border-accent/40 transition-shadow duration-300 will-change-transform"
+            className="event-panel flex-grow p-6 sm:p-8 border border-slate-300 dark:border-[#1A1C1A] bg-white dark:bg-[#0B0D0C] relative flex flex-col justify-between overflow-hidden group shadow-md hover:shadow-xl hover:border-emerald-600/50 dark:hover:border-accent/40 transition-all duration-300 will-change-transform"
           >
             <CornerBrackets />
+            {/* Ghost event code behind panel content */}
+            <div className="ghost-numeral absolute -top-5 -right-3 text-[110px] opacity-[0.04] dark:opacity-[0.05]" aria-hidden="true">
+              GT
+            </div>
             <div className="absolute top-0 right-0 w-32 h-32 bg-emerald-500/10 dark:bg-accent/10 blur-3xl rounded-full translate-x-10 -translate-y-10 pointer-events-none opacity-60 group-hover:opacity-100 transition-opacity duration-300" />
 
-            <div>
+            <div className="relative z-10">
               <div className="flex justify-between items-start mb-8">
                 <span className="mono text-[10px] bg-emerald-50 text-emerald-700 dark:bg-accent/10 dark:text-accent px-2 py-1 border border-emerald-300 dark:border-accent/20 font-bold uppercase">
                   NEXT EVENT / OPEN
@@ -225,18 +307,32 @@ export const Hero: React.FC<HeroProps> = ({ onScrollToNextEvent }) => {
               </div>
             </div>
 
-            <a
-              id="hero-claim-spot-btn"
-              href={REGISTRATION_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              onClick={() => playTactileClick(1000, 0.05)}
-              className="w-full mt-8 border border-emerald-600 dark:border-accent text-emerald-700 dark:text-accent py-4 font-bold text-xs sm:text-sm tracking-widest hover:bg-emerald-600 hover:text-white dark:hover:bg-accent dark:hover:text-[#050605] transition-colors rounded-none cursor-pointer mono uppercase flex items-center justify-center gap-2"
-            >
-              <span>CLAIM YOUR SPOT →</span>
-            </a>
+            <div className="relative z-10">
+              <a
+                id="hero-claim-spot-btn"
+                href={REGISTRATION_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={() => playTactileClick(1000, 0.05)}
+                className="group/btn relative w-full mt-8 bg-emerald-600 dark:bg-accent text-white dark:text-[#050605] py-4 font-bold text-xs sm:text-sm tracking-widest hover:bg-emerald-700 dark:hover:bg-[#B7FFC9] hover:-translate-y-0.5 hover:shadow-lg active:translate-y-0 transition-all duration-200 rounded-none cursor-pointer mono uppercase flex items-center justify-center gap-2"
+              >
+                <span>CLAIM YOUR SPOT</span>
+                <span className="inline-block transition-transform duration-200 group-hover/btn:translate-x-1.5">→</span>
+                <span className="absolute right-3 w-1.5 h-1.5 rounded-full bg-white/90 dark:bg-[#050605]/80 opacity-0 group-hover/btn:opacity-100 transition-opacity duration-200" aria-hidden="true" />
+              </a>
 
-            <div className="mt-3 flex items-center justify-between mono text-[8px] tracking-[0.22em] uppercase text-slate-400 dark:text-[#3D443D]/70">
+              <button
+                onClick={() => {
+                  playTactileClick();
+                  onScrollToNextEvent();
+                }}
+                className="w-full mt-2.5 py-2.5 mono text-[10px] tracking-[0.22em] uppercase text-slate-500 dark:text-[#565C57] hover:text-emerald-700 dark:hover:text-accent transition-colors cursor-pointer flex items-center justify-center gap-1.5"
+              >
+                VIEW EVENT BRIEF <span aria-hidden="true">↓</span>
+              </button>
+            </div>
+
+            <div className="relative z-10 mt-3 flex items-center justify-between mono text-[8px] tracking-[0.22em] uppercase text-slate-400 dark:text-[#3D443D]/70">
               <span>NODE: DELHI_KALKAJI</span>
               <span className="flex items-center gap-1.5">
                 <span className="w-1 h-1 bg-emerald-600/70 dark:bg-accent/60 blink-dot inline-block" />

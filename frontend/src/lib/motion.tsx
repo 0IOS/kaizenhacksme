@@ -187,6 +187,7 @@ interface ParsedStat {
   suffix: string;
   decimals: number;
   grouping: boolean;
+  padWidth: number;
 }
 
 const parseStatValue = (raw: string): ParsedStat | null => {
@@ -196,13 +197,21 @@ const parseStatValue = (raw: string): ParsedStat | null => {
   const decimals = numStr.includes('.') ? numStr.split('.')[1].length : 0;
   const target = parseFloat(numStr.replace(/,/g, ''));
   if (Number.isNaN(target)) return null;
-  return { prefix, target, suffix, decimals, grouping: numStr.includes(',') };
+  return {
+    prefix,
+    target,
+    suffix,
+    decimals,
+    grouping: numStr.includes(','),
+    padWidth: numStr.split('.')[0].replace(/[.,]/g, '').length,
+  };
 };
 
 const formatStat = (v: number, p: ParsedStat) =>
-  `${p.prefix}${v
+  `${p.prefix}${Math.max(0, v)
     .toFixed(p.decimals)
-    .replace(/\B(?=(\d{3})+(?!\d))/g, p.grouping ? ',' : '')}${p.suffix}`;
+    .replace(/\B(?=(\d{3})+(?!\d))/g, p.grouping ? ',' : '')
+    .padStart(p.padWidth, '0')}${p.suffix}`;
 
 export const AnimatedStat: React.FC<{ value: string; className?: string }> = ({ value, className }) => {
   const ref = useRef<HTMLSpanElement>(null);
@@ -212,6 +221,10 @@ export const AnimatedStat: React.FC<{ value: string; className?: string }> = ({ 
 
   useEffect(() => {
     if (!parsed || !inView) return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      setDisplay(formatStat(parsed.target, parsed));
+      return;
+    }
     const controls = animate(0, parsed.target, {
       duration: 1.4,
       ease: EASE_OUT,
@@ -226,6 +239,50 @@ export const AnimatedStat: React.FC<{ value: string; className?: string }> = ({ 
     </span>
   );
 };
+
+/* ---------- Scroll spy ---------- */
+
+export function useActiveSection(ids: string[], disabled = false): string | null {
+  const [activeId, setActiveId] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (disabled || typeof window === 'undefined' || !('IntersectionObserver' in window)) return;
+
+    let rafId: number | null = null;
+    let pendingId: string | null | undefined;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        // Pick the entry nearest the top of the viewport among intersecting ones
+        const visible = entries.filter((e) => e.isIntersecting);
+        pendingId = visible.length
+          ? visible.reduce((best, e) =>
+              e.boundingClientRect.top < best.boundingClientRect.top ? e : best
+            ).target.id
+          : null;
+        if (rafId === null) {
+          rafId = requestAnimationFrame(() => {
+            rafId = null;
+            setActiveId((prev) => (pendingId === undefined ? prev : pendingId));
+          });
+        }
+      },
+      { rootMargin: '-20% 0px -55% 0px', threshold: 0 }
+    );
+
+    ids.forEach((id) => {
+      const el = document.getElementById(id);
+      if (el) observer.observe(el);
+    });
+
+    return () => {
+      observer.disconnect();
+      if (rafId !== null) cancelAnimationFrame(rafId);
+    };
+  }, [ids.join(','), disabled]);
+
+  return activeId;
+}
 
 interface SectionDividerProps {
   label?: string;

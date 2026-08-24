@@ -39,60 +39,51 @@ export const PAST_EVENTS: EventItem[] = [];
 
 export const ORGANIZERS: Organizer[] = [
   {
-    id: 'varun',
-    name: 'VARUN',
-    role: 'FRONTEND & ARCHITECTURE',
-    division: 'CORE FOUNDER',
-    tagline: 'Obsessed with high-signal digital craft, extreme latency reduction & compiler design.',
-    image: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=800&auto=format&fit=crop',
-    github: 'https://github.com',
-    twitter: 'https://x.com',
-    linkedin: 'https://linkedin.com'
-  },
-  {
-    id: 'aarav',
-    name: 'AARAV',
-    role: 'SYSTEMS & INFRASTRUCTURE',
-    division: 'ENGINEERING LEAD',
+    id: 'hamza',
+    name: 'HAMZA KHAN',
+    role: 'Founder & CEO',
+    division: 'MAIN LEAD',
     tagline: 'Distributed systems engineer. Built deployment pipelines scaling to millions of hits.',
     image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=800&auto=format&fit=crop',
-    github: 'https://github.com',
-    twitter: 'https://x.com',
+    github: 'https://github.com/hamzakh9n',
+    // twitter: 'https://x.com',
     linkedin: 'https://linkedin.com'
   },
   {
-    id: 'riya',
-    name: 'RIYA',
-    role: 'COMMUNITY & PARTNERSHIPS',
-    division: 'ECOSYSTEM LEAD',
+    id: 'vaun',
+    name: 'VAUN RAIKWAR',
+    role: 'Founder & Developer',
+    division: 'TECH LEAD',
+    tagline: 'Obsessed with high-signal digital craft, extreme latency reduction & compiler design.',
+    image: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=800&auto=format&fit=crop',
+    github: 'https://github.com/v4run-codez',
+    // twitter: 'https://x.com',
+    linkedin: 'https://linkedin.com'
+  },
+
+  {
+    id: 'saurabh',
+    name: 'SAURABH GUPTA',
+    role: 'Founder & Developer',
+    division: 'TECH LEAD',
     tagline: 'Connecting high-output hacker communities with global VC funds & deeptech studios.',
     image: 'https://images.unsplash.com/photo-1517841905240-472988babdf9?q=80&w=800&auto=format&fit=crop',
-    github: 'https://github.com',
-    twitter: 'https://x.com',
+    github: 'https://github.com/0ios',
+    // twitter: 'https://x.com',
     linkedin: 'https://linkedin.com'
   },
   {
-    id: 'kabir',
-    name: 'KABIR',
-    role: 'HARDWARE & LABS',
-    division: 'PHYSICAL COMPUTE',
-    tagline: 'Embedded engineer & PCB designer. Supplies custom FPGA rigs & oscilloscopes to builders.',
+    id: 'yash',
+    name: 'YASH PRATAP SINGH',
+    role: 'Founder & Social Media Manager',
+    division: 'MARKETING LEAD',
+    tagline: 'Runs the floor on event day — registrations, venues, and everything in between.',
     image: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=800&auto=format&fit=crop',
     github: 'https://github.com',
-    twitter: 'https://x.com',
+    // twitter: 'https://x.com',
     linkedin: 'https://linkedin.com'
   },
-  {
-    id: 'meera',
-    name: 'MEERA',
-    role: 'OPERATIONS & OUTREACH',
-    division: 'CORE TEAM',
-    tagline: 'Runs the floor on event day — registrations, venues, and everything in between.',
-    image: 'https://images.unsplash.com/photo-1531123897727-8f129e1688ce?q=80&w=800&auto=format&fit=crop',
-    github: 'https://github.com',
-    twitter: 'https://x.com',
-    linkedin: 'https://linkedin.com'
-  }
+
 ];
 
 export const PARTNERS: Partner[] = [
@@ -171,7 +162,8 @@ export const PARTNERS: Partner[] = [
 ];
 
 export const KEY_STATS = [
-  { value: 'VOL. 01', label: 'INAUGURAL EVENT', sub: 'GreenTech Ideathon debut' },
-  { value: '50', label: 'BUILDER SEATS', sub: 'First cohort' },
-  { value: 'TBA', label: 'PRIZE POOL', sub: 'To be revealed soon' }
+  { value: '50', label: 'BUILDER SEATS', sub: 'Founding cohort — Vol. 01' },
+  { value: String(PARTNERS.length).padStart(2, '0'), label: 'ECOSYSTEM PARTNERS', sub: 'Compute, AI & venture network' },
+  { value: '01', label: 'DAY SPRINT', sub: 'One-day ideathon format' },
+  { value: '∞', label: 'IDEAS', sub: 'A place for them to happen' }
 ];

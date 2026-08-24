@@ -15,8 +15,13 @@ export const RegisterCTA: React.FC = () => {
       id="registration-cta"
       className="relative min-h-[60vh] flex flex-col justify-center items-center py-24 sm:py-28 px-5 sm:px-8 bg-slate-100 dark:bg-[#050605] border-t border-slate-300 dark:border-[#1A1C1A] overflow-hidden text-center select-none"
     >
-      {/* Background Grid overlay */}
-      <div className="absolute inset-0 tech-grid opacity-10 dark:opacity-20 pointer-events-none" />
+      {/* Minimal grid — barely there */}
+      <div className="absolute inset-0 tech-grid opacity-[0.06] dark:opacity-[0.12] pointer-events-none" />
+
+      {/* Ghost section numeral */}
+      <div aria-hidden="true" className="ghost-numeral absolute top-6 left-4 text-[140px] xl:text-[200px] opacity-[0.05] dark:opacity-[0.06] hidden md:block">
+        07
+      </div>
 
       {/* Atmospheric emerald core glow */}
       <motion.div
@@ -33,18 +38,6 @@ export const RegisterCTA: React.FC = () => {
         aria-hidden="true"
       />
 
-      {/* Faint signal scanline */}
-      <div
-        className="scanline absolute left-0 right-0 h-24 top-[-15vh] pointer-events-none hidden sm:block"
-        style={{
-          ['--scan-dur' as string]: '22s',
-          ['--scan-op' as string]: 0.4,
-          background:
-            'linear-gradient(to bottom, transparent, rgba(141, 255, 179, 0.06), transparent)',
-        }}
-        aria-hidden="true"
-      />
-
       <div className="relative z-10 max-w-5xl mx-auto flex flex-col items-center">
         {/* Monospace Micro Label */}
         <Reveal direction="down" amount={0.6} className="mb-6">
@@ -56,7 +49,7 @@ export const RegisterCTA: React.FC = () => {
 
         {/* Large Typography without glow */}
         <Reveal direction="up" amount={0.4}>
-          <h2 className="font-display font-bold text-6xl sm:text-8xl md:text-9xl lg:text-[130px] text-emerald-600 dark:text-accent tracking-tighter uppercase leading-[0.88] select-none">
+          <h2 className="font-display font-bold text-[clamp(3rem,14vw,5rem)] sm:text-8xl md:text-9xl lg:text-[130px] text-emerald-600 dark:text-accent tracking-tighter uppercase leading-[0.88] select-none">
             <div>READY</div>
             <div className="text-slate-950 dark:text-[#F5F5F0]">TO BUILD?</div>
           </h2>
@@ -69,21 +62,36 @@ export const RegisterCTA: React.FC = () => {
             target="_blank"
             rel="noopener noreferrer"
             onClick={() => playTactileClick(1100, 0.06)}
-            className="group px-8 sm:px-12 py-5 sm:py-6 bg-emerald-600 hover:bg-emerald-700 dark:bg-accent dark:hover:opacity-90 text-white dark:text-[#050605] mono font-bold text-sm sm:text-base uppercase tracking-widest flex items-center gap-4 transition-all duration-200 cursor-pointer hover:scale-105 rounded-none shadow-md hover:shadow-xl"
+            className="group relative inline-flex items-center gap-4 px-8 sm:px-12 py-5 sm:py-6 bg-emerald-600 hover:bg-emerald-700 dark:bg-accent dark:hover:bg-[#B7FFC9] text-white dark:text-[#050605] mono font-bold text-sm sm:text-base uppercase tracking-widest transition-all duration-200 cursor-pointer rounded-none shadow-md hover:shadow-[6px_6px_0px_0px_rgba(6,78,59,0.35)] dark:hover:shadow-[6px_6px_0px_0px_rgba(141,255,179,0.22)] hover:-translate-x-0.5 hover:-translate-y-0.5 active:translate-x-0 active:translate-y-0"
           >
             <span>NEXT EVENT (GREENTECH IDEATHON)</span>
             <ArrowRight size={20} className="group-hover:translate-x-2 transition-transform duration-200" />
+            <span
+              className="absolute right-2 top-2 w-1.5 h-1.5 rounded-full bg-white/90 dark:bg-[#050605]/80 opacity-0 group-hover:opacity-100 transition-opacity duration-200"
+              aria-hidden="true"
+            />
           </a>
         </Reveal>
 
+        {/* System status line */}
+        <Reveal direction="none" delay={0.2} className="mt-7">
+          <div className="flex items-center justify-center gap-3 text-[10px] mono tracking-[0.22em] uppercase text-slate-500 dark:text-[#565C57]/90 font-semibold">
+            <span>STATUS // OPEN</span>
+            <span className="w-1 h-1 bg-emerald-600/50 dark:bg-accent/40 rounded-full" aria-hidden="true" />
+            <span>SEATS // 50</span>
+            <span className="w-1 h-1 bg-emerald-600/50 dark:bg-accent/40 rounded-full" aria-hidden="true" />
+            <span>PROTOCOL // V2.6</span>
+          </div>
+        </Reveal>
+
         {/* Tiny metadata subline */}
-        <Reveal direction="none" delay={0.25} className="mt-8">
+        <Reveal direction="none" delay={0.25} className="mt-4">
           <a
             href={VENUE_MAPS_URL}
             target="_blank"
             rel="noopener noreferrer"
             onClick={() => playTactileClick()}
-            className="flex items-center justify-center gap-3 text-xs mono text-slate-600 dark:text-[#565C57] hover:text-emerald-700 dark:hover:text-accent tracking-wider uppercase font-semibold transition-colors"
+            className="flex flex-wrap items-center justify-center gap-3 text-xs mono text-slate-600 dark:text-[#565C57] hover:text-emerald-700 dark:hover:text-accent tracking-wider uppercase font-semibold transition-colors"
           >
             <span>ONE-DAY IDEATHON</span>
             <span className="w-1 h-1 bg-emerald-600/50 dark:bg-accent/40 rounded-full" />
