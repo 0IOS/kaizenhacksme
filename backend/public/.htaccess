@@ -1,0 +1,40 @@
+RewriteEngine On
+
+# Prefer index.html over index.php for directory requests
+DirectoryIndex index.html index.php
+
+# Force HTTPS
+RewriteCond %{HTTPS} off
+RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+# Prevent directory listing
+Options -Indexes
+
+# Route API requests to PHP handlers
+RewriteCond %{REQUEST_URI} ^/api/
+RewriteRule ^api/(.*)$ api/router.php [QSA,L]
+
+# Serve static files directly (CSS, JS, images, fonts, favicon)
+RewriteCond %{REQUEST_URI} \.(css|js|png|jpg|jpeg|gif|ico|svg|woff|woff2|ttf|eot|webp|avif)$ [OR]
+RewriteCond %{REQUEST_URI} ^/assets/
+RewriteRule ^ - [L]
+
+# Route admin requests
+RewriteCond %{REQUEST_URI} ^/admin/
+RewriteRule ^admin/(.*)$ admin/$1 [L]
+
+# Route specific PHP pages
+RewriteCond %{REQUEST_URI} ^/([a-z0-9-]+)\.php$
+RewriteRule ^([a-z0-9-]+)\.php$ $1.php [L]
+
+# Remove .php extension for clean URLs
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME}\.php -f
+RewriteRule ^(.*)$ $1.php [L]
+
+# Block access to sensitive directories
+RewriteRule ^app/ - [F,L]
+RewriteRule ^includes/ - [F,L]
+RewriteRule ^database/ - [F,L]
+RewriteRule ^storage/ - [F,L]
+RewriteRule ^config\.env - [F,L]

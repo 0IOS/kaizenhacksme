@@ -1,0 +1,446 @@
+/* ============================================================
+   Kaizen Hacks — Custom CSS
+   Converted from React index.css for Tailwind CDN compatibility.
+   ============================================================ */
+
+/* ---------- CSS Custom Properties ---------- */
+:root {
+  --font-display: 'Space Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, 'SF Mono', 'Courier New', Courier, monospace;
+  --font-sans: 'Space Grotesk', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+
+  /* Light Theme Palette - Modern Editorial High Contrast (soft green-tinted paper) */
+  --color-bg: #EDF3EC;
+  --color-bg-panel: #FFFFFF;
+  --color-bg-elevated: #E1EAE0;
+  --color-bg-input: #FFFFFF;
+  --color-border: #CBD5E1;
+  --color-border-subtle: #DFE9DD;
+  --color-accent: #059669;
+  --color-accent-hover: #047857;
+  --color-accent-text: #FFFFFF;
+  --color-text-main: #0F172A;
+  --color-text-muted: #334155;
+  --color-text-subtle: #64748B;
+  --grid-line: #DEE8DB;
+}
+
+html.dark {
+  /* Dark Theme Palette - Deep Cyber Carbon */
+  --color-bg: #050605;
+  --color-bg-panel: #0B0D0C;
+  --color-bg-elevated: #111412;
+  --color-bg-input: #050605;
+  --color-border: #1A1C1A;
+  --color-border-subtle: #242825;
+  --color-accent: #8DFFB3;
+  --color-accent-hover: #B7FFC9;
+  --color-accent-text: #050605;
+  --color-text-main: #F5F5F0;
+  --color-text-muted: #A9ADA9;
+  --color-text-subtle: #565C57;
+  --grid-line: #0F110F;
+}
+
+/* ---------- Base Typography ---------- */
+body {
+  font-family: "Space Grotesk", "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+  background-color: var(--color-bg);
+  color: var(--color-text-main);
+  transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+
+h1, h2, h3, h4, h5, h6, .font-display {
+  font-family: var(--font-display);
+  letter-spacing: -0.03em;
+}
+
+code, pre, .font-mono, .mono {
+  font-family: 'JetBrains Mono', 'Space Grotesk', 'Courier New', Courier, monospace;
+  letter-spacing: 0.01em;
+  font-feature-settings: 'zero' on;
+}
+
+/* ---------- Theme-adaptive Utility Classes ---------- */
+.bg-app-base {
+  background-color: var(--color-bg);
+}
+
+.bg-app-panel {
+  background-color: var(--color-bg-panel);
+}
+
+.bg-app-elevated {
+  background-color: var(--color-bg-elevated);
+}
+
+.border-app {
+  border-color: var(--color-border);
+}
+
+.text-app-main {
+  color: var(--color-text-main);
+}
+
+.text-app-muted {
+  color: var(--color-text-muted);
+}
+
+.text-app-subtle {
+  color: var(--color-text-subtle);
+}
+
+.bg-accent {
+  background-color: var(--color-accent);
+}
+
+.text-accent {
+  color: var(--color-accent);
+}
+
+.border-accent {
+  border-color: var(--color-accent);
+}
+
+.event-panel {
+  background: var(--color-bg-panel);
+}
+
+/* ---------- Custom Subtle Noise and Technical Grid ---------- */
+.tech-grid {
+  background-size: 40px 40px;
+  background-image:
+    linear-gradient(to right, var(--grid-line) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--grid-line) 1px, transparent 1px);
+}
+
+.tech-grid-fine {
+  background-size: 20px 20px;
+  background-image:
+    linear-gradient(to right, rgba(5, 150, 105, 0.08) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(5, 150, 105, 0.08) 1px, transparent 1px);
+}
+
+html.dark .tech-grid-fine {
+  background-image:
+    linear-gradient(to right, rgba(141, 255, 179, 0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(141, 255, 179, 0.05) 1px, transparent 1px);
+}
+
+/* ============================================================
+   Living Background System — Keyframe Animations
+   All transform/opacity only for GPU compositing.
+   ============================================================ */
+
+@keyframes grid-drift {
+  0% { transform: translate3d(0, 0, 0); }
+  50% { transform: translate3d(-22px, -16px, 0); }
+  100% { transform: translate3d(0, 0, 0); }
+}
+
+@keyframes glow-breathe {
+  0%, 100% { opacity: var(--glow-min, 0.5); transform: translate3d(0, 0, 0) scale(1); }
+  50% { opacity: var(--glow-max, 1); transform: translate3d(1.5%, -1.5%, 0) scale(1.05); }
+}
+
+@keyframes scan-sweep {
+  0% { transform: translate3d(0, -20vh, 0); opacity: 0; }
+  6% { opacity: var(--scan-op, 0.5); }
+  94% { opacity: var(--scan-op, 0.5); }
+  100% { transform: translate3d(0, 120vh, 0); opacity: 0; }
+}
+
+@keyframes particle-drift {
+  0% { transform: translate3d(0, 0, 0); opacity: var(--p-o0, 0.2); }
+  25% { opacity: var(--p-o1, 0.45); }
+  75% { opacity: var(--p-o1, 0.45); }
+  100% { transform: translate3d(var(--p-dx, 10px), var(--p-dy, -60px), 0); opacity: var(--p-o0, 0.2); }
+}
+
+@keyframes float-soft {
+  0%, 100% { transform: translate3d(0, 0, 0); opacity: var(--f-min, 0.35); }
+  50% { transform: translate3d(0, -8px, 0); opacity: var(--f-max, 0.7); }
+}
+
+@keyframes soft-blink {
+  0%, 65% { opacity: 1; }
+  66%, 100% { opacity: 0.15; }
+}
+
+/* ---------- Animation Utility Classes ---------- */
+.grid-drift {
+  animation: grid-drift 90s ease-in-out infinite;
+  will-change: transform;
+}
+
+.glow-layer {
+  animation: glow-breathe 14s ease-in-out infinite;
+  will-change: transform, opacity;
+}
+
+.scanline {
+  animation: scan-sweep var(--scan-dur, 17s) linear infinite;
+  will-change: transform, opacity;
+}
+
+.particle {
+  position: absolute;
+  border-radius: 9999px;
+  animation-name: particle-drift;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+  will-change: transform, opacity;
+  pointer-events: none;
+}
+
+.float-deco {
+  animation: float-soft 9s ease-in-out infinite;
+}
+
+.blink-dot {
+  animation: soft-blink 2.6s steps(1) infinite;
+}
+
+/* ============================================================
+   Entry Animations (replace tailwindcss-animate plugin)
+   ============================================================ */
+
+@keyframes kz-fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes kz-slide-down {
+  from { opacity: 0; transform: translateY(-8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes kz-pop-in {
+  from { opacity: 0; transform: translateY(10px) scale(0.985); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.anim-fade { animation: kz-fade-in 0.2s ease-out both; }
+.anim-drawer { animation: kz-slide-down 0.22s cubic-bezier(0.22, 1, 0.36, 1) both; }
+.anim-modal { animation: kz-pop-in 0.24s cubic-bezier(0.22, 1, 0.36, 1) both; }
+
+/* ============================================================
+   Interaction Utilities
+   ============================================================ */
+
+/* Animated technical underline for inline links */
+.link-tech {
+  background-image: linear-gradient(currentColor, currentColor);
+  background-size: 0% 1px;
+  background-position: 0 100%;
+  background-repeat: no-repeat;
+  transition: background-size 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@media (hover: hover) {
+  .link-tech:hover {
+    background-size: 100% 1px;
+  }
+}
+
+/* Unified solid CTA — geometry, depth, tactile states */
+.cta-solid {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  font-family: var(--font-mono);
+  font-weight: 700;
+  text-transform: uppercase;
+  border-radius: 0;
+  cursor: pointer;
+  background-color: #059669;
+  color: #ffffff;
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.12);
+  transition:
+    background-color 0.2s ease,
+    box-shadow 0.25s cubic-bezier(0.22, 1, 0.36, 1),
+    translate 0.2s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+html.dark .cta-solid {
+  background-color: var(--color-accent);
+  color: #050605;
+}
+
+@media (hover: hover) {
+  .cta-solid:hover {
+    background-color: #047857;
+    box-shadow: 4px 4px 0 0 rgba(6, 78, 59, 0.35);
+    translate: -2px -2px;
+  }
+
+  html.dark .cta-solid:hover {
+    background-color: #b7ffc9;
+    box-shadow: 4px 4px 0 0 rgba(141, 255, 179, 0.22);
+  }
+}
+
+.cta-solid:active {
+  translate: 0 0;
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.12);
+}
+
+/* Dim siblings while one card is hovered (team grid) */
+@media (hover: hover) {
+  .sibling-dim > * { transition: opacity 0.35s ease; }
+  .sibling-dim:hover > *:not(:hover) { opacity: 0.55; }
+}
+
+/* ============================================================
+   Grid Intensity System (per-section variation)
+   ============================================================ */
+
+.grid-hero,
+.grid-event,
+.grid-medium,
+.grid-subtle {
+  background-image:
+    linear-gradient(to right, var(--grid-line) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--grid-line) 1px, transparent 1px);
+}
+
+.grid-hero    { background-size: 44px 44px; }
+.grid-event   { background-size: 36px 36px; }
+.grid-medium  { background-size: 32px 32px; }
+.grid-subtle  { background-size: 48px 48px; }
+
+/* Fades a section grid out toward the bottom so content always wins */
+.grid-fade-y {
+  -webkit-mask-image: linear-gradient(to bottom, black, transparent);
+  mask-image: linear-gradient(to bottom, black, transparent);
+}
+
+/* ============================================================
+   Ghost Numeral Class
+   Oversized ghost numerals — perceived subconsciously (4-7% ink)
+   ============================================================ */
+.ghost-numeral {
+  font-family: var(--font-display);
+  font-weight: 700;
+  line-height: 0.78;
+  letter-spacing: -0.05em;
+  color: var(--color-text-main);
+  user-select: none;
+  pointer-events: none;
+}
+
+/* ============================================================
+   Custom Scrollbar
+   ============================================================ */
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-bg);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-border);
+  border-radius: 0px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-accent);
+}
+
+/* ============================================================
+   Accessibility
+   ============================================================ */
+:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 3px;
+}
+
+section[id], footer[id] {
+  scroll-margin-top: 88px;
+}
+
+/* ============================================================
+   Marquee Ticker Animation (for scrolling text band)
+   ============================================================ */
+@keyframes marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-33.333333%); }
+}
+
+/* ============================================================
+   Scroll Progress Bar
+   ============================================================ */
+.scroll-progress-bar {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background-color: var(--color-accent);
+  transform-origin: left;
+  opacity: 0.7;
+  transition: transform 0.1s linear;
+}
+
+/* ============================================================
+   Mobile Menu Panel
+   ============================================================ */
+.mobile-menu-panel {
+  position: fixed;
+  inset: 0;
+  top: 0;
+  z-index: 30;
+  background-color: var(--color-bg);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+/* ============================================================
+   Modal Overlay
+   ============================================================ */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  background: rgba(15, 23, 42, 0.6);
+  backdrop-filter: blur(12px);
+  overflow-y: auto;
+}
+
+html.dark .modal-overlay {
+  background: rgba(5, 6, 5, 0.8);
+}
+
+/* ============================================================
+   Reduced Motion
+   ============================================================ */
+@media (prefers-reduced-motion: reduce) {
+  .grid-drift,
+  .glow-layer,
+  .scanline,
+  .particle,
+  .float-deco,
+  .blink-dot,
+  .anim-fade,
+  .anim-drawer,
+  .anim-modal {
+    animation: none !important;
+  }
+
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
+}
