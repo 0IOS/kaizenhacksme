@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use App\Helpers\Auth;
+use App\Helpers\Csrf;
 use App\Middleware\AuthMiddleware;
 use App\Services\EventService;
 use App\Services\RegistrationService;
@@ -25,6 +26,10 @@ $uri = parse_url($uri, PHP_URL_PATH);
 $uri = '/' . ltrim(str_replace('/api/admin', '', $uri), '/');
 
 $method = $_SERVER['REQUEST_METHOD'];
+
+if (in_array($method, ['POST', 'PUT', 'PATCH', 'DELETE'], true)) {
+    Csrf::verify();
+}
 
 $eventService = new EventService();
 $regService = new RegistrationService();

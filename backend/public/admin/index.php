@@ -55,7 +55,7 @@ require_once __DIR__ . '/../../includes/header.php';
                             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
                             INQUIRIES
                         </a>
-                        <a href="/admin/contacts.php" class="flex items-center gap-2.5 px-3 py-2.5 text-xs mono font-medium uppercase tracking-wider text-slate-700 dark:text-[#A9ADA9] hover:text-emerald-700 dark:hover:text-accent hover:bg-slate-100 dark:hover:bg-[#0B0D0C] border border-transparent hover:border-slate-200 dark:hover:border-[#1A1C1A] transition-colors">
+                        <a href="/admin/index.php#contacts" class="flex items-center gap-2.5 px-3 py-2.5 text-xs mono font-medium uppercase tracking-wider text-slate-700 dark:text-[#A9ADA9] hover:text-emerald-700 dark:hover:text-accent hover:bg-slate-100 dark:hover:bg-[#0B0D0C] border border-transparent hover:border-slate-200 dark:hover:border-[#1A1C1A] transition-colors">
                             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
                             CONTACTS
                         </a>
@@ -151,7 +151,7 @@ require_once __DIR__ . '/../../includes/header.php';
                     </div>
 
                     <!-- Total Contacts -->
-                    <div class="bg-white dark:bg-[#0B0D0C] border border-slate-200 dark:border-[#1A1C1A] p-5 hover:border-emerald-600/30 dark:hover:border-accent/20 transition-colors group">
+                    <div id="contacts" class="bg-white dark:bg-[#0B0D0C] border border-slate-200 dark:border-[#1A1C1A] p-5 hover:border-emerald-600/30 dark:hover:border-accent/20 transition-colors group">
                         <div class="flex items-center justify-between mb-3">
                             <span class="mono text-[10px] tracking-[0.2em] uppercase text-slate-500 dark:text-[#565C57] font-bold">CONTACTS</span>
                             <span class="w-8 h-8 bg-emerald-50 dark:bg-accent/10 border border-emerald-200 dark:border-accent/20 flex items-center justify-center text-emerald-700 dark:text-accent group-hover:scale-105 transition-transform">
@@ -192,7 +192,7 @@ require_once __DIR__ . '/../../includes/header.php';
                             <span class="text-xs mono font-bold uppercase tracking-wider text-slate-800 dark:text-[#F5F5F0] group-hover:text-emerald-700 dark:group-hover:text-accent transition-colors">MANAGE INQUIRIES</span>
                             <svg class="ml-auto text-slate-400 dark:text-[#565C57] group-hover:text-emerald-700 dark:group-hover:text-accent transition-colors" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
                         </a>
-                        <a href="/admin/contacts.php" class="flex items-center gap-3 p-4 bg-white dark:bg-[#0B0D0C] border border-slate-200 dark:border-[#1A1C1A] hover:border-emerald-600/40 dark:hover:border-accent/30 transition-all group">
+                        <a href="/admin/index.php#contacts" class="flex items-center gap-3 p-4 bg-white dark:bg-[#0B0D0C] border border-slate-200 dark:border-[#1A1C1A] hover:border-emerald-600/40 dark:hover:border-accent/30 transition-all group">
                             <span class="w-2 h-2 bg-emerald-600 dark:bg-accent group-hover:scale-125 transition-transform"></span>
                             <span class="text-xs mono font-bold uppercase tracking-wider text-slate-800 dark:text-[#F5F5F0] group-hover:text-emerald-700 dark:group-hover:text-accent transition-colors">MANAGE CONTACTS</span>
                             <svg class="ml-auto text-slate-400 dark:text-[#565C57] group-hover:text-emerald-700 dark:group-hover:text-accent transition-colors" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>

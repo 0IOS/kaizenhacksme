@@ -23,6 +23,8 @@ if ($method !== 'POST') {
     contactJsonResponse(['success' => false, 'error' => 'Method not allowed'], 405);
 }
 
+Csrf::verify();
+
 RateLimitMiddleware::enforce('contact', 5, 900);
 
 $input = json_decode(file_get_contents('php://input'), true) ?: $_POST;

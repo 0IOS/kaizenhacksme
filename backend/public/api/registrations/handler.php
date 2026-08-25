@@ -29,6 +29,8 @@ switch ($uri) {
             regsJsonResponse(['success' => false, 'error' => 'Method not allowed'], 405);
         }
 
+        Csrf::verify();
+
         $user = Auth::getCurrentUser();
         if (!$user) {
             regsJsonResponse(['success' => false, 'error' => 'Authentication required'], 401);
@@ -56,6 +58,8 @@ switch ($uri) {
         if ($method !== 'POST') {
             regsJsonResponse(['success' => false, 'error' => 'Method not allowed'], 405);
         }
+
+        Csrf::verify();
 
         $user = Auth::getCurrentUser();
         if (!$user) {

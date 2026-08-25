@@ -20,7 +20,7 @@ class AuthMiddleware
                 exit;
             }
 
-            \App\Helpers\Session::flash('error', 'Please log in to continue.');
+            \App\Config\Session::flash('error', 'Please log in to continue.');
             $returnUrl = urlencode($_SERVER['REQUEST_URI'] ?? '/');
             header('Location: /login.php?return=' . $returnUrl);
             exit;
